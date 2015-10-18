@@ -1,6 +1,51 @@
 angular.module('starter.controllers', [])
 
-.controller('DashCtrl', function($scope) {})
+.controller('SignInCtrl', function($scope, $state) {
+  
+  $scope.signIn = function(user) {
+    console.log('Sign-In', user);
+    $state.go('tab.dash');
+  };
+  
+})
+
+.controller('DashCtrl', function($scope, $timeout, $ionicFilterBar) {
+  var filterBarInstance;
+
+  function getItems () {
+    var items = [];
+    for (var x = 1; x < 100; x++) {
+      items.push({text: 'This is item number ' + x + ' which is an ' + (x % 2 === 0 ? 'EVEN' : 'ODD') + ' number.'});
+    }
+    $scope.items = items;
+  }
+
+  getItems();
+
+  $scope.showFilterBar = function () {
+    filterBarInstance = $ionicFilterBar.show({
+      items: $scope.items,
+      update: function (filteredItems, filterText) {
+        $scope.items = filteredItems;
+        if (filterText) {
+          console.log(filterText);
+        }
+      }
+    });
+  };
+
+  $scope.refreshItems = function () {
+    if (filterBarInstance) {
+      filterBarInstance();
+      filterBarInstance = null;
+    }
+
+    $timeout(function () {
+      getItems();
+      $scope.$broadcast('scroll.refreshComplete');
+    }, 1000);
+  };
+})
 
 .controller('ChatsCtrl', function($scope, Chats) {
   // With the new view caching in Ionic, Controllers are only called
