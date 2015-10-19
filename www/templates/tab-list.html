@@ -1,0 +1,44 @@
+<ion-view view-title="Results">
+
+  <ion-nav-buttons side="secondary">
+    <button class="button button-icon icon ion-ios-search-strong" ng-click="showFilterBar()">
+    </button>
+  </ion-nav-buttons>
+
+  <ion-content direction="y" scrollbar-y="false">
+
+    <ion-refresher pulling-icon="ion-arrow-down-b" on-refresh="refreshItems()">
+    </ion-refresher>
+
+    <ion-list>
+      <ion-item class="item-remove-animate item-icon-right" ng-repeat="item in items | orderBy: filterBy" type="item-text-wrap" href="#/tab/list/{{item.id}}">
+        <div class="list card">
+          <div class="item item-divider">{{item.name}}</div>
+          <div class="item item-body">
+            <div>
+              <i class="icon-left ion-android-alarm-clock">
+                <span style="padding-left:10px;">
+                  {{item.time}} minutes
+                </span>
+              </i>
+              <br />
+              <i class="icon-left ion-social-usd">
+                <span style="padding-left:10px;">
+                  {{item.cost}} per serving
+                </span>
+              </i>
+            </div>
+            <i class="icon ion-ios-arrow-forward"></i>
+            </p>
+          </div>
+        </div>
+      </ion-item>
+    </ion-list>
+
+    <div ng-if="items !== undefined && !items.length" class="no-results">
+      <p>No Results</p>
+    </div>
+
+  </ion-content>
+
+</ion-view>

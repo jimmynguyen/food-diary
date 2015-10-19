@@ -9,14 +9,34 @@ angular.module('starter.controllers', [])
   
 })
 
-.controller('DashCtrl', function($scope, $timeout, $ionicFilterBar) {
+.controller('DashCtrl', function($scope, $location, filterBy) {
+  // 
+  $scope.search = function() {
+    // alert($('input[name="filterBy"]:checked').val());
+    filterBy.setProperty($('input[name="filterBy"]:checked').val());
+    $location.path('/tab/list');
+  };
+})
+
+.controller('ListCtrl', function($scope, $timeout, $ionicFilterBar, filterBy) {
+
+  if (filterBy.getProperty() !== null) {
+    $scope.filterBy = "'"+filterBy.getProperty()+"'";
+  } else {
+    $scope.filterBy = "'name'";
+  }
+
   var filterBarInstance;
 
   function getItems () {
     var items = [];
-    for (var x = 1; x < 100; x++) {
-      items.push({text: 'This is item number ' + x + ' which is an ' + (x % 2 === 0 ? 'EVEN' : 'ODD') + ' number.'});
-    }
+    // for (var x = 1; x < 100; x++) {
+    //   // items.push({text: 'This is item number ' + x + ' which is an ' + (x % 2 === 0 ? 'EVEN' : 'ODD') + ' number.'});
+    //   items.push({value: x, text: 'This is item number ' + x + ' which is an ' + (x % 2 === 0 ? 'EVEN' : 'ODD') + ' number.'});
+    // }
+    items.push({id: 0, name: 'Chicken Parmesan Casserole', time: 50, cost: 1.07});
+    items.push({id: 1, name: 'Spaghetti and Meatballs', time: 45, cost: 1.64});
+    items.push({id: 2, name: 'White Vegetarian Lasagna', time: 45, cost: 1.08});
     $scope.items = items;
   }
 
@@ -64,6 +84,33 @@ angular.module('starter.controllers', [])
 
 .controller('ChatDetailCtrl', function($scope, $stateParams, Chats) {
   $scope.chat = Chats.get($stateParams.chatId);
+})
+
+.controller('ItemDetailCtrl', function($scope, $stateParams) {
+  function searchId(id, arr){
+    for (var i=0; i < arr.length; i++) {
+        if (arr[i].id.toString() === id) {
+          return arr[i];
+        }
+    }
+  }
+
+  var ingredients = [];
+  ingredients.push({name: 'whole milk', quantity: 2.5, unit: 'cup'});
+  ingredients.push({name: 'vegetable broth', quantity: 1, unit: 'cup'});
+  ingredients.push({name: 'garlic', quantity: 6, unit: 'cloves'});
+
+  var items = [];
+  items.push({id: 0, name: 'Chicken Parmesan Casserole', time: 50, cost: 1.07});
+  items.push({id: 1, name: 'Spaghetti and Meatballs', time: 45, cost: 1.64});
+  items.push({id: 2, name: 'White Vegetarian Lasagna', time: 45, cost: 1.08});
+  // items.push({id: 1, name: 'Chicken Parmesan Casserole', time: '50 minutes', cost: '1.07 per serving'});
+  // items.push({id: 2, name: 'Spaghetti and Meatballs', time: '45 minutes', cost: '1.64 per serving'});
+  // items.push({id: 3, name: 'White Vegetarian Lasagna', time: '45 minutes', cost: '1.08 per serving'});
+  
+  $scope.item = searchId($stateParams.itemId,items);
+  $scope.ingredients = ingredients;
+
 })
 
 .controller('AccountCtrl', function($scope) {

@@ -1,6 +1,18 @@
-<!-- <ion-view view-title="Dashboard">
+<ion-view view-title="Home">
   <ion-content class="padding">
-    <div class="list card">
+    <b>Order by</b>:
+    <br/><br/>
+    <input type="radio" name="filterBy" value="name" id="filterBy"> Name
+    <br/><br/>
+    <input type="radio" name="filterBy" value="time" id="filterBy"> Time
+    <br/><br/>
+    <input type="radio" name="filterBy" value="cost" id="filterBy"> Cost
+    <br/><br/>
+    <!-- <div style="text-align:center"> -->
+      <!-- <a class="button icon icon-right ion-search" href="#/tab/list">Search</a> -->
+      <button class="button icon icon-right ion-search" ng-click="search()">Search</button>
+    <!-- </div> -->
+    <!-- <div class="list card">
       <div class="item item-divider">Recent Updates</div>
       <div class="item item-body">
         <div>
@@ -23,33 +35,6 @@
           You have <b>29</b> meetings on your calendar tomorrow.
         </div>
       </div>
-    </div>
+    </div> -->
   </ion-content>
-</ion-view>
- -->
- <ion-view view-title="Ionic Filter Bar">
-
-  <ion-nav-buttons side="secondary">
-    <button class="button button-icon icon ion-ios-search-strong" ng-click="showFilterBar()">
-    </button>
-  </ion-nav-buttons>
-
-  <ion-content direction="y" scrollbar-y="false">
-
-    <ion-refresher pulling-icon="ion-arrow-down-b" on-refresh="refreshItems()">
-    </ion-refresher>
-
-    <ion-list>
-      <ion-item class="item-remove-animate item-icon-right" ng-repeat="item in items" type="item-text-wrap">
-        <p>{{item.text}}</p>
-        <i class="icon ion-chevron-right icon-accessory"></i>
-      </ion-item>
-    </ion-list>
-
-    <div ng-if="items !== undefined && !items.length" class="no-results">
-      <p>No Results</p>
-    </div>
-
-  </ion-content>
-
 </ion-view>

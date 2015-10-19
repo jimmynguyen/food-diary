@@ -7,6 +7,19 @@
 // 'starter.controllers' is found in controllers.js
 angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', 'jett.ionic.filter.bar'])
 
+.service('filterBy', function () {
+    var property = null;
+
+    return {
+        getProperty: function () {
+            return property;
+        },
+        setProperty: function(value) {
+            property = value;
+        }
+    };
+})
+
 .run(function($ionicPlatform) {
   $ionicPlatform.ready(function() {
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
@@ -57,6 +70,26 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
       'tab-dash': {
         templateUrl: 'templates/tab-dash.html',
         controller: 'DashCtrl'
+      }
+    }
+  })
+
+  .state('tab.list', {
+    url: '/list',
+    views: {
+      'tab-dash': {
+        templateUrl: 'templates/tab-list.html',
+        controller: 'ListCtrl'
+      }
+    }
+  })
+
+  .state('tab.detail', {
+    url: '/list/:itemId',
+    views: {
+      'tab-dash': {
+        templateUrl: 'templates/item-detail.html',
+        controller: 'ItemDetailCtrl'
       }
     }
   })
