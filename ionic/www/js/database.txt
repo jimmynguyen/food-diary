@@ -1,0 +1,19 @@
+https://docs.google.com/spreadsheets/d/1pDp_1Gm2vQS17CrtOR9JoGf964LJ2u7K84Rwor30JS8/edit#gid=0
+
+ingredients table:
+	https://sheetsu.com/apis/f8d2a320
+
+nutrients table:
+	https://sheetsu.com/apis/738b25b1
+
+recipes table:
+	https://sheetsu.com/apis/c6ebe75a
+
+recipe_ingredients table:
+	https://sheetsu.com/apis/d96103aa
+
+recipe_nutrients table:
+	https://sheetsu.com/apis/51e3addb
+
+instructions table:
+	https://sheetsu.com/apis/dc989eff

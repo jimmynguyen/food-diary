@@ -1,25 +1,20 @@
 angular.module('starter.controllers', [])
 
 .controller('SignInCtrl', function($scope, $state) {
-  
   $scope.signIn = function(user) {
     console.log('Sign-In', user);
-    $state.go('tab.dash');
+    $state.go('tab.search');
   };
-  
 })
 
-.controller('DashCtrl', function($scope, $location, filterBy) {
-  // 
+.controller('SearchCtrl', function($scope, $location, filterBy) {
   $scope.search = function() {
-    // alert($('input[name="filterBy"]:checked').val());
     filterBy.setProperty($('input[name="filterBy"]:checked').val());
     $location.path('/tab/list');
   };
 })
 
-.controller('ListCtrl', function($scope, $timeout, $ionicFilterBar, filterBy) {
-
+.controller('ListCtrl', function($scope, $rootScope, $http, $timeout, $ionicFilterBar, filterBy) {
   if (filterBy.getProperty() !== null) {
     $scope.filterBy = "'"+filterBy.getProperty()+"'";
   } else {
@@ -28,25 +23,22 @@ angular.module('starter.controllers', [])
 
   var filterBarInstance;
 
-  function getItems () {
-    var items = [];
-    // for (var x = 1; x < 100; x++) {
-    //   // items.push({text: 'This is item number ' + x + ' which is an ' + (x % 2 === 0 ? 'EVEN' : 'ODD') + ' number.'});
-    //   items.push({value: x, text: 'This is item number ' + x + ' which is an ' + (x % 2 === 0 ? 'EVEN' : 'ODD') + ' number.'});
-    // }
-    items.push({id: 0, name: 'Chicken Parmesan Casserole', time: 50, cost: 1.07});
-    items.push({id: 1, name: 'Spaghetti and Meatballs', time: 45, cost: 1.64});
-    items.push({id: 2, name: 'White Vegetarian Lasagna', time: 45, cost: 1.08});
-    $scope.items = items;
+  // get recipes
+  function getRecipes() {
+    $http.get("https://sheetsu.com/apis/c6ebe75a")
+    .success(function(data) {
+      $scope.recipes = data.result;
+      $('.loader').hide();
+      $rootScope.$apply();
+    });
   }
-
-  getItems();
+  getRecipes();
 
   $scope.showFilterBar = function () {
     filterBarInstance = $ionicFilterBar.show({
-      items: $scope.items,
+      items: $scope.recipes,
       update: function (filteredItems, filterText) {
-        $scope.items = filteredItems;
+        $scope.recipes = filteredItems;
         if (filterText) {
           console.log(filterText);
         }
@@ -61,32 +53,13 @@ angular.module('starter.controllers', [])
     }
 
     $timeout(function () {
-      getItems();
+      getRecipes();
       $scope.$broadcast('scroll.refreshComplete');
     }, 1000);
   };
 })
 
-.controller('ChatsCtrl', function($scope, Chats) {
-  // With the new view caching in Ionic, Controllers are only called
-  // when they are recreated or on app start, instead of every page change.
-  // To listen for when this page is active (for example, to refresh data),
-  // listen for the $ionicView.enter event:
-  //
-  //$scope.$on('$ionicView.enter', function(e) {
-  //});
-
-  $scope.chats = Chats.all();
-  $scope.remove = function(chat) {
-    Chats.remove(chat);
-  };
-})
-
-.controller('ChatDetailCtrl', function($scope, $stateParams, Chats) {
-  $scope.chat = Chats.get($stateParams.chatId);
-})
-
-.controller('ItemDetailCtrl', function($scope, $stateParams) {
+.controller('ItemDetailCtrl', function($scope, $stateParams, $http, $rootScope) {
   function searchId(id, arr){
     for (var i=0; i < arr.length; i++) {
         if (arr[i].id.toString() === id) {
@@ -95,26 +68,98 @@ angular.module('starter.controllers', [])
     }
   }
 
-  var ingredients = [];
-  ingredients.push({name: 'whole milk', quantity: 2.5, unit: 'cup'});
-  ingredients.push({name: 'vegetable broth', quantity: 1, unit: 'cup'});
-  ingredients.push({name: 'garlic', quantity: 6, unit: 'cloves'});
+  function getRecipeIngredients(recipe_id,recipe_ingredients) {
+    for (var i = recipe_ingredients.length-1; i >= 0; i--) {
+      if (recipe_ingredients[i].recipe_id.toString() !== recipe_id) {
+        recipe_ingredients.splice(i,1);
+      }
+    }
+    return recipe_ingredients;
+  }
 
-  var items = [];
-  items.push({id: 0, name: 'Chicken Parmesan Casserole', time: 50, cost: 1.07});
-  items.push({id: 1, name: 'Spaghetti and Meatballs', time: 45, cost: 1.64});
-  items.push({id: 2, name: 'White Vegetarian Lasagna', time: 45, cost: 1.08});
-  // items.push({id: 1, name: 'Chicken Parmesan Casserole', time: '50 minutes', cost: '1.07 per serving'});
-  // items.push({id: 2, name: 'Spaghetti and Meatballs', time: '45 minutes', cost: '1.64 per serving'});
-  // items.push({id: 3, name: 'White Vegetarian Lasagna', time: '45 minutes', cost: '1.08 per serving'});
-  
-  $scope.item = searchId($stateParams.itemId,items);
-  $scope.ingredients = ingredients;
+  function getRecipeInstructions(recipe_id,recipe_instructions) {
+    for (var i = recipe_instructions.length-1; i >= 0; i--) {
+      if (recipe_instructions[i].recipe_id.toString() !== recipe_id) {
+        recipe_instructions.splice(i,1);
+      }
+    }
+    return recipe_instructions;
+  }
 
-})
+  $scope.all_ingredients = null;
+  $scope.recipe_ingredients = null;
+  $scope.recipes = null;
+  $scope.instructions = null;
+  $scope.recipe_id = $stateParams.recipe_id;
 
-.controller('AccountCtrl', function($scope) {
-  $scope.settings = {
-    enableFriends: true
-  };
+
+  // get recipes
+  $http.get("https://sheetsu.com/apis/c6ebe75a")
+  .success(function(data) {
+    $scope.recipes = data.result;
+    $scope.recipe = searchId($scope.recipe_id,$scope.recipes);
+    // remove loader
+    if ($scope.instructions !== null 
+        && $scope.all_ingredients !== null 
+        && $scope.recipe_ingredients !== null 
+        && $scope.recipes !== null) {
+      $('.loader').hide();
+      $rootScope.$apply();
+    }
+  });
+
+  // get all ingredients
+  $http.get("https://sheetsu.com/apis/f8d2a320")
+  .success(function(data) {
+    $scope.all_ingredients = data.result;
+    if ($scope.recipe_ingredients !== null) {
+      for (var i = 0; i < $scope.recipe_ingredients.length; i++) {
+        $scope.recipe_ingredients[i].name = searchId($scope.recipe_ingredients[i].ingredient_id,$scope.all_ingredients).name;
+      }
+      $scope.ingredients = $scope.recipe_ingredients;
+    }
+    // remove loader
+    if ($scope.instructions !== null 
+        && $scope.all_ingredients !== null 
+        && $scope.recipe_ingredients !== null 
+        && $scope.recipes !== null) {
+      $('.loader').hide();
+      $rootScope.$apply();
+    }
+  });
+
+  // get recipe_ingredients
+  $http.get("https://sheetsu.com/apis/d96103aa")
+  .success(function(data) {
+    $scope.recipe_ingredients = getRecipeIngredients($scope.recipe_id,data.result);
+    if ($scope.all_ingredients !== null) {
+      for (var i = 0; i < $scope.recipe_ingredients.length; i++) {
+        $scope.recipe_ingredients[i].name = searchId($scope.recipe_ingredients[i].ingredient_id,$scope.all_ingredients).name;
+      }
+      $scope.ingredients = $scope.recipe_ingredients;
+    }
+    // remove loader
+    if ($scope.instructions !== null 
+        && $scope.all_ingredients !== null 
+        && $scope.recipe_ingredients !== null 
+        && $scope.recipes !== null) {
+      $('.loader').hide();
+      $rootScope.$apply();
+    }
+  });
+
+  // get recipe_instructions
+  $http.get("https://sheetsu.com/apis/dc989eff")
+  .success(function(data) {
+    $scope.instructions = getRecipeInstructions($scope.recipe_id,data.result);
+    // remove loader
+    if ($scope.instructions !== null 
+        && $scope.all_ingredients !== null 
+        && $scope.recipe_ingredients !== null 
+        && $scope.recipes !== null) {
+      $('.loader').hide();
+      $rootScope.$apply();
+    }
+  });
+
 });
