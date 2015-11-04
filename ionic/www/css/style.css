@@ -1,4 +1,8 @@
 /* Empty. Add your own CSS if you like */
+body {
+	font-family: monospace;
+}
+
 .loader {
 	position: fixed;
 	left: 0px;
@@ -7,4 +11,12 @@
 	height: 100%;
 	z-index: 9999;
 	background: url('../img/ajax-loader.gif') 50% 50% no-repeat rgb(249,249,249);
+}
+
+.margin-top-5px {
+	margin-top: 5px;
+}
+
+.margin-top-10px {
+	margin-top: 10px;
 }

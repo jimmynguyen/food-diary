@@ -1,4 +1,4 @@
-angular.module('starter.controllers', [])
+angular.module('starter.controllers', ['ionic', 'ion-autocomplete'])
 
 .controller('SignInCtrl', function($scope, $state) {
   $scope.signIn = function(user) {
@@ -7,21 +7,146 @@ angular.module('starter.controllers', [])
   };
 })
 
-.controller('SearchCtrl', function($scope, $location, filterBy) {
+.controller('SearchCtrl', function($state, $scope, $rootScope, $location, $http, minTime, maxTime, minCost, maxCost, recipes, nutrients, ingredients, selectedItems, recipe_ingredients, recipe_nutrients, instructions) {
   $scope.search = function() {
-    filterBy.setProperty($('input[name="filterBy"]:checked').val());
-    $location.path('/tab/list');
+    minTime.setProperty($('#minTime').val());
+    maxTime.setProperty($('#maxTime').val());
+    minCost.setProperty($('#minCost').val());
+    maxCost.setProperty($('#maxCost').val());
+    recipes.setProperty($scope.recipes);
+    nutrients.setProperty($scope.nutrients);
+    ingredients.setProperty($scope.ingredients);
+    selectedItems.setProperty($scope.selectedItems);
+    $state.go('tab.list');
   };
-})
 
-.controller('ListCtrl', function($scope, $rootScope, $http, $timeout, $ionicFilterBar, filterBy) {
-  if (filterBy.getProperty() !== null) {
-    $scope.filterBy = "'"+filterBy.getProperty()+"'";
-  } else {
-    $scope.filterBy = "'name'";
+  $scope.searchString = "";
+  $scope.searchList = function(event) {
+    $scope.searchString = $('#search').val();
   }
 
+  $scope.clearSearch = function() {
+    $('#search').val("");
+    $scope.searchString = "";
+  }
+
+  $scope.selectedItems = [];
+  $scope.selectItem = function(item) {
+    $scope.selectedItems.push(item);
+    $scope.items.splice($scope.items.indexOf(item),1);
+  }
+  $scope.unselectItem = function(item) {
+    $scope.items.push(item);
+    $scope.selectedItems.splice($scope.selectedItems.indexOf(item),1);
+  }
+
+  $scope.setMinQuantity = function(item) {
+    var value = $("#"+item.minQuantityId).val();
+    if (parseFloat(value) >= 0) {
+      $scope.selectedItems.splice($scope.selectedItems.indexOf(item),1);
+      item.minQuantity = value;
+      $scope.selectedItems.push(item);
+    }
+  }
+
+  $scope.setMaxQuantity = function(item) {
+    var value = $("#"+item.maxQuantityId).val();
+    if (parseFloat(value) >= 0) {
+      $scope.selectedItems.splice($scope.selectedItems.indexOf(item),1);
+      item.maxQuantity = parseFloat(value);
+      $scope.selectedItems.push(item);
+    }
+  }
+
+  String.prototype.capitalizeFirstLetter = function() {
+    return this.charAt(0).toUpperCase() + this.slice(1);
+  }
+
+  String.prototype.toCamelCase = function() {
+    return this.replace(/(?:^\w|[A-Z]|\b\w)/g, function(letter, index) {
+      return index == 0 ? letter.toLowerCase() : letter.toUpperCase();
+    }).replace(/\s+/g, '');
+  }
+
+  function getNamesAndType(arr,type) {
+    var newArr = [];
+    for (var i = 0; i < arr.length; i++) {
+      newArr.push({name: arr[i].name.capitalizeFirstLetter(),type: type, minQuantity: 0, maxQuantity: 0, minQuantityId: "min_"+arr[i].name.toCamelCase(), maxQuantityId: "max_"+arr[i].name.toCamelCase()});
+    }
+    return newArr;
+  }
+  
+  Array.prototype.unique = function() {
+      var a = this.concat();
+      for(var i=0; i<a.length; ++i) {
+          for(var j=i+1; j<a.length; ++j) {
+              if(a[i] === a[j])
+                  a.splice(j--, 1);
+          }
+      }
+
+      return a;
+  };
+
+  $scope.items = [];
+  $scope.recipes = null;
+  $scope.nutrients = null;
+  $scope.ingredients = null;
+
+  // get recipes
+  $http.get("https://sheetsu.com/apis/c6ebe75a")
+  .success(function(data) {
+    $scope.recipes = data.result;
+    $scope.items = $scope.items.concat(getNamesAndType($scope.recipes,"recipe")).unique();
+    $rootScope.$apply();
+  });
+
+  // get nutrients
+  $http.get("https://sheetsu.com/apis/738b25b1")
+  .success(function(data) {
+    $scope.nutrients = data.result;
+    $scope.items = $scope.items.concat(getNamesAndType($scope.nutrients,"nutrient")).unique();
+    $rootScope.$apply();
+  });
+
+  // get all ingredients
+  $http.get("https://sheetsu.com/apis/f8d2a320")
+  .success(function(data) {
+    $scope.ingredients = data.result;
+    $scope.items = $scope.items.concat(getNamesAndType($scope.ingredients,"ingredient")).unique();
+    $rootScope.$apply();
+  });
+
+  // get recipe_ingredients
+  $http.get("https://sheetsu.com/apis/d96103aa")
+  .success(function(data) {
+    recipe_ingredients.setProperty(data.result);
+  });
+
+  // get recipe_nutrients
+  $http.get("https://sheetsu.com/apis/51e3addb")
+  .success(function(data) {
+    recipe_ingredients.setProperty(data.result);
+  });
+
+  // get instructions
+  $http.get("https://sheetsu.com/apis/dc989eff")
+  .success(function(data) {
+    recipe_ingredients.setProperty(data.result);
+  });
+})
+
+.controller('ListCtrl', function($scope, $rootScope, $http, $timeout, $ionicFilterBar, minTime, maxTime, minCost, maxCost, recipes, nutrients, ingredients, selectedItems) {
   var filterBarInstance;
+
+  function getRecipesByName(name) {
+    var recipeArr = recipes.getProperty();
+    for (var i = 0; i < recipeArr.length; i++) {
+      if (recipeArr[i].name.toUpperCase() == name.toUpperCase()) {
+        return recipeArr[i];
+      }
+    }
+  }
 
   // get recipes
   function getRecipes() {
@@ -31,6 +156,21 @@ angular.module('starter.controllers', [])
       $('.loader').hide();
       $rootScope.$apply();
     });
+
+    // $scope.recipes = [];
+    // for (var i = 0, item; i <= selectedItems.length; i++) {
+    //   item = selectedItems[i];
+    //   if (item.type == "recipe") {
+    //     $scope.recipes.push(getRecipesByName(item.name));
+    //   } else if (item.type == "nutrient") {
+
+    //   } else if (item.type == "ingredient") {
+
+    //   }
+    // }
+
+    // $scope.recipes = recipes;
+    // $rootScope.$apply();
   }
   getRecipes();
 
