@@ -1,5 +1,3 @@
-https://docs.google.com/spreadsheets/d/1pDp_1Gm2vQS17CrtOR9JoGf964LJ2u7K84Rwor30JS8/edit#gid=0
-
 ingredients table:
 	https://sheetsu.com/apis/f8d2a320
 
