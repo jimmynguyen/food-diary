@@ -1,0 +1,37 @@
+<div ng-controller="ResultsController">
+	<div class="navbar navbar-inverse navbar-fixed-top">
+	  <div class="container">
+	    <!-- <div class="navbar-header text-center"> -->
+	      <!-- <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+	        <span class="icon-bar"></span>
+	        <span class="icon-bar"></span>
+	        <span class="icon-bar"></span>
+	      </button> -->
+	      <!-- <a class="navbar-brand">Results</a>
+	    </div> -->
+
+	    <div class="row">
+	    	<div class="column col-md-12 text-center">
+	    		<a style="float:left;height: 50px;padding: 15px 0px;font-size: 18px;line-height: 20px;display: inline-block;text-decoration:none;color:white;" href="#/"><span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span></a>
+	      		<span style="height: 50px;padding: 15px 0px;font-size: 18px;line-height: 20px;display: inline-block;text-decoration:none;color:white;">Results</span>
+	    	</div>
+		</div>
+	    <!-- <div class="collapse navbar-collapse"> -->
+	      <!-- <ul class="nav navbar-nav"> -->
+	        <!-- <li class="active"><a href="#">Search</a></li>
+	        <li><a href="#">Results</a></li>
+	        <li><a href="#">Details</a></li> -->
+	      <!-- </ul> -->
+	    <!-- </div>/.nav-collapse  -->
+	  </div>
+	</div>
+	<div class="container">
+		<div class="row">
+			<div class="column col-md-12 text-center">
+				<h4 ng-repeat="recipe in recipes | orderBy: 'name'"><a style="cursor:pointer;" href="#/details/{{recipe.id}}">{{recipe.name}}</a></h4>
+				<div ng-show="recipes.length == 0">No results</div>
+			</div>
+		</div>
+		<div class="loader"></div>
+	</div>
+</div>
