@@ -1,13 +1,42 @@
 <ion-view view-title="Home">
   <ion-content class="padding">
-    <b>Order by</b>:
+    <b>Enter Recipe Information</b>:
     <br/><br/>
-    <input type="radio" name="filterBy" value="name" id="filterBy" checked> Name
+    <!--<input type="radio" name="filterBy" value="name" id="filterBy" checked> Name
     <br/><br/>
     <input type="radio" name="filterBy" value="time" id="filterBy"> Time
     <br/><br/>
     <input type="radio" name="filterBy" value="cost" id="filterBy"> Cost
-    <br/><br/>
+    <br/><br/>-->
+	
+	<label class="item item-input">
+  <span class="input-label">Include Ingredients:</span>
+  <input type="text">
+	</label>
+	<label class="item item-input">
+  <span class="input-label">Exclude Ingredients:</span>
+  <input type="text">
+	</label>
+	<label class="item item-input">
+  <span class="input-label">Maximum Cost:</span>
+  <input type="number">
+	</label>
+	<label class="item item-input">
+  <span class="input-label">Minimum Cost:</span>
+  <input type="number">
+  </label>
+  <label class="item item-input">
+  <span class="input-label">Maximum Cook Time:</span>
+  <input type="number">
+	</label>
+	<label class="item item-input">
+  <span class="input-label">Minimum Cook Time:</span>
+  <input type="number">
+	</label>
+	
+	
+	
     <button class="button icon icon-right ion-search" ng-click="search()">Search</button>
+	
   </ion-content>
 </ion-view>
