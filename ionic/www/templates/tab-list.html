@@ -1,46 +1,56 @@
 <ion-view view-title="Results">
 
-  <ion-nav-buttons side="secondary">
-    <button class="button button-icon icon ion-ios-search-strong" ng-click="showFilterBar()">
-    </button>
-  </ion-nav-buttons>
+	<ion-nav-buttons side="secondary">
+		<button class="button button-icon icon ion-ios-search-strong" ng-click="showFilterBar()">
+		</button>
+	</ion-nav-buttons>
 
-  <ion-content direction="y" scrollbar-y="false">
+	<ion-content direction="y" scrollbar-y="false">
 
-    <ion-refresher pulling-icon="ion-arrow-down-b" on-refresh="refreshItems()">
-    </ion-refresher>
+		<ion-refresher pulling-icon="ion-arrow-down-b" on-refresh="refreshItems()">
+		</ion-refresher>
 
-    <ion-list>
-      <ion-item class="item-remove-animate item-icon-right" ng-repeat="item in recipes | orderBy: 'name'" type="item-text-wrap" href="#/tab/list/{{item.id}}">
-        <div class="list card">
-          <div class="item item-divider">{{item.name}}</div>
-          <div class="item item-body">
-            <div>
-              <i class="icon-left ion-android-alarm-clock">
-                <span style="padding-left:10px;">
-                  {{item.time}} minutes
-                </span>
-              </i>
-              <br />
-              <i class="icon-left ion-social-usd">
-                <span style="padding-left:10px;">
-                  {{item.cost}} per serving
-                </span>
-              </i>
-            </div>
-            <i class="icon ion-ios-arrow-forward"></i>
-            </p>
-          </div>
-        </div>
-      </ion-item>
-    </ion-list>
+		<div class="row">
+			<div class="column col-sm-4">
+				<input type="radio" name="filter" value="name"/> Name
+			</div>
+			<div class="column col-sm-4">
+				<input type="radio" name="filter" value="cost"/> Cost
+			</div>
+			<div class="column col-sm-4">
+				<input type="radio" name="filter" value="time"/> Time
+			</div>
+		</div>
 
-    <div ng-if="recipes !== undefined && !recipes.length" class="no-results">
-      <p>No Results</p>
-    </div>
+		<ion-list>
+			<ion-item class="item-remove-animate item-icon-right" ng-repeat="item in recipes | orderBy: 'name'" type="item-text-wrap" href="#/tab/list/{{item.id}}">
+				<div class="list card">
+					<div class="item item-divider">{{item.name}}</div>
+					<div class="item item-body">
+						<div>
+							<i class="icon-left ion-android-alarm-clock">
+								<span style="padding-left:10px;">
+									{{item.time}} minutes
+								</span>
+							</i>
+							<br />
+							<i class="icon-left ion-social-usd">
+								<span style="padding-left:10px;">
+									{{item.cost}} per serving
+								</span>
+							</i>
+						</div>
+						<i class="icon ion-ios-arrow-forward"></i>
+						</p>
+					</div>
+				</div>
+			</ion-item>
+		</ion-list>
 
-    <div class="loader"></div>
+		<div ng-if="recipes !== undefined && !recipes.length" class="no-results">
+			<p>No Results</p>
+		</div>
 
-  </ion-content>
+	</ion-content>
 
 </ion-view>

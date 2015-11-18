@@ -1,24 +1,23 @@
 <!--
-  This template loads for the 'tab.friend-detail' state (app.js)
-  'friend' is a $scope variable created in the FriendsCtrl controller (controllers.js)
-  The FriendsCtrl pulls data from the Friends service (service.js)
-  The Friends service returns an array of friend data
+	This template loads for the 'tab.friend-detail' state (app.js)
+	'friend' is a $scope variable created in the FriendsCtrl controller (controllers.js)
+	The FriendsCtrl pulls data from the Friends service (service.js)
+	The Friends service returns an array of friend data
 -->
 <ion-view view-title="{{recipe.name}}">
-  <ion-content class="padding">
-    <div style="margin-left:20px;">
-      <b>Time</b>: {{recipe.time}} minutes
-      <br/><br/>
-      <b>Cost</b>: ${{recipe.cost}} per serving
-      <br/><br/>
-      <b>Ingredients</b>:
-      <br/>
-      <li ng-repeat="ingredient in ingredients">{{ingredient.quantity}} {{ingredient.units}} {{ingredient.name}}</li>
-      <br/>
-      <b>Instructions</b>:
-      <br/>
-      <li ng-repeat="instruction in instructions | orderBy: step_number">{{instruction.description}}</li>
-    </div>
-    <div class="loader"></div>
-  </ion-content>
+	<ion-content class="padding">
+		<div style="margin-left:20px;">
+			<b>Time</b>: {{recipe.time}} minutes
+			<br/><br/>
+			<b>Cost</b>: ${{recipe.cost}} per serving
+			<br/><br/>
+			<b>Ingredients</b>:
+			<br/>
+			<li ng-repeat="ingredient in ingredients">{{ingredient.quantity}} {{ingredient.units}} {{ingredient.name}}</li>
+			<br/>
+			<b>Instructions</b>:
+			<br/>
+			<li ng-repeat="instruction in instructions | orderBy: step_number">{{instruction.description}}</li>
+		</div>
+	</ion-content>
 </ion-view>
