@@ -1,4 +1,4 @@
-<ion-view view-title="Home">
+<ion-view view-title="Home" hide-back-button="true">
 	<ion-header-bar class="bar bar-subheader item-input-inset"> 
 		<label class="item-input-wrapper search">
 		<i class="icon ion-search placeholder-icon"></i>
@@ -6,71 +6,11 @@
 		</label>
 	</ion-header-bar>
 	<ion-content class="padding text-center">
-
-		<!-- <b>Enter Recipe Information</b>:
-		<br/><br/>
-		<label class="item item-input">
-	  <span class="input-label">Include Ingredients:</span>
-	  <input type="text">
-		</label>
-		<label class="item item-input">
-	  <span class="input-label">Exclude Ingredients:</span>
-	  <input type="text">
-		</label>
-		<label class="item item-input">
-	  <span class="input-label">Maximum Cost:</span>
-	  <input type="number">
-		</label>
-		<label class="item item-input">
-	  <span class="input-label">Minimum Cost:</span>
-	  <input type="number">
-	  </label>
-	  <label class="item item-input">
-	  <span class="input-label">Maximum Cook Time:</span>
-	  <input type="number">
-		</label>
-		<label class="item item-input">
-	  <span class="input-label">Minimum Cook Time:</span>
-	  <input type="number">
-		</label> -->
-		<!-- <form>
-
-			<label class="item item-input">
-				<span class="input-label">Multiple select autocomplete</span>
-				<input ion-autocomplete type="text" readonly="readonly" class="ion-autocomplete" autocomplete="off"
-					   ng-model="model"
-					   item-value-key="name"
-					   item-view-value-key="view"
-					   items-method="getTestItems(query)"
-					   items-method-value-key="items"
-					   placeholder="Enter test query ..."
-					   items-clicked-method="itemsClicked(callback)"
-					   items-removed-method="itemsRemoved(callback)"
-					   max-selected-items="3"/>
-			</label>
-
-			<label class="item item-input">
-				<span class="input-label">Multiple select autocomplete model value</span>
-				<input type="text" class="ion-autocomplete-test-model" ng-model="model" autocomplete="off">
-			</label>
-
-			<label class="item item-input">
-				<span class="input-label">Multiple select autocomplete clicked item callback model value</span>
-				<input type="text" class="ion-autocomplete-clicked-model" ng-model="clickedValueModel"
-					   autocomplete="off">
-			</label>
-
-			<label class="item item-input">
-				<span class="input-label">Multiple select autocomplete removed item callback model value</span>
-				<input type="text" class="ion-autocomplete-removed-model" ng-model="removedValueModel"
-					   autocomplete="off">
-			</label>
-
-		</form> -->
 		<ion-list ng-show="searchString.length > 0">
 			<ion-item class="item-remove-animate" ng-repeat="item in items | orderBy: 'name' | filter: searchString:strict" type="item-text-wrap">
 				<div class="item item-divider" ng-click="selectItem(item)">
-					{{item.name}} ({{item.type}})
+					<i class="ion-android-add-circle" style="float:left;"></i>
+					{{item.name}}
 				</div>
 			</ion-item>
 			<ion-item  class="item-remove-animate" ng-show="(items | orderBy: 'name' | filter: searchString:strict).length == 0" type="item-text-wrap">
@@ -79,15 +19,14 @@
 				</div>
 			</ion-item>
 		</ion-list>
-
 		<div ng-hide="searchString.length > 0">
-			<ion-item class="item-remove-animate text-left" type="item-text-wrap">
+			<!-- <ion-item class="item-remove-animate text-left" type="item-text-wrap">
 				<div class="item item-divider">
 					<i class="ion-social-usd" ></i>
 					Cost
 					<br />
-					<p>Min quantity: <input type="number" style="display:inline-block;padding-left:5px;" placeholder="Min Value" id="minCost"/></p>
-					<p>Max quantity: <input type="number" style="display:inline-block;padding-left:5px;" placeholder="Max Value" id="maxCost"/></p>
+					<p>Min: <input type="number" style="display:inline-block;padding-left:5px;" placeholder="Min Value" id="minCost"/></p>
+					<p>Max: <input type="number" style="display:inline-block;padding-left:5px;" placeholder="Max Value" id="maxCost"/></p>
 				</div>
 			</ion-item>
 			<ion-item class="item-remove-animate text-left" type="item-text-wrap">
@@ -95,32 +34,68 @@
 					<i class="ion-android-alarm-clock" ></i>
 					Time
 					<br />
-					<p>Min quantity: <input type="number" style="display:inline-block;padding-left:5px;" placeholder="Enter value" id="minTime"/></p>
-					<p>Max quantity: <input type="number" style="display:inline-block;padding-left:5px;" placeholder="Enter value" id="maxTime"/></p>
+					<p>Min: <input type="number" style="display:inline-block;padding-left:5px;" placeholder="Enter value" id="minTime"/></p>
+					<p>Max: <input type="number" style="display:inline-block;padding-left:5px;" placeholder="Enter value" id="maxTime"/></p>
 				</div>
-			</ion-item>
+			</ion-item> -->
 			<ion-list ng-show="selectedItems.length > 0" class="text-left">
 				<ion-item class="item-remove-animate" ng-repeat="item in selectedItems | orderBy: item.name" type="item-text-wrap">
 					<div class="item item-divider">
-						<a ng-click="unselectItem(item)" style="float:right;"><i style="font-size: 25px;" class="ion-trash-a" ></i></a>
-						{{item.name}} ({{item.type}})
-						<br />
-						<p>Min quantity: <input ng-hide="item.type == 'recipe'" type="number" style="display:inline-block;padding-left:5px;" placeholder="Enter value" ng-keyup="setMinQuantity(item)" id="{{item.minQuantityId}}"/></p>
-						<p>Max quantity: <input ng-hide="item.type == 'recipe'" type="number" style="display:inline-block;padding-left:5px;" placeholder="Enter value" ng-keyup="setMaxQuantity(item)" id="{{item.maxQuantityId}}"/></p>
+						<div class="row">
+							<div class="col">
+							<a ng-click="unselectItem(item)" style="float:right;"><i style="font-size: 25px;" class="ion-trash-b" ></i></a>
+							{{item.name}}
+							</div>
+						</div>
+						<!-- item.type has 2 values: N, I -->
+						<div ng-if="item.type == 'N'">
+							<div class="list">
+								<label class="item item-input item-select">
+									<div class="input-label">
+										Operator
+									</div>
+									<select style="display:inline;" ng-model="item.operator">
+										<option value="L">&lt;</option>
+										<option value="E" selected>&asymp;</option>
+										<option value="G">&gt;</option>
+									</select>
+								</label>
+							</div>
+							<div class="list">
+								<label class="item item-input">
+									<input id="{{item.id}}_quantity" type="text" style="display:inline;" ng-model="item.quantity" placeholder="Enter Value" ng-click="$(this).removeClass('placeholder')" ng-keyup="isNumber(item.id+'_quantity')">
+								</label>
+							</div>
+							<div class="list">
+								<label class="item item-input item-select">
+									<div class="input-label">
+										Units
+									</div>
+									<select style="display:inline;">
+										<option value="item.units" selected>
+											{{item.units}}
+										</option>
+									</select>
+								</label>
+							</div>
+						</div>
 					</div>
 				</ion-item>
 			</ion-list>
-			<button class="button icon icon-right ion-search margin-top-10px" ng-click="search()">Find Recipes</button>
-		</div>
+			
+			<ion-list ng-hide="selectedItems.length > 0">
+				<ion-item class="item-text-wrap text-left">
+					Please select an ingredient or nutrient in the search bar above
+				</ion-item>
+			</ion-list>
 
-		<!-- <input type="text" name ="search"/>
-		<b>Order by</b>:
-		<br/><br/>
-		<input type="radio" name="filterBy" value="name" id="filterBy" checked> Name
-		<br/><br/>
-		<input type="radio" name="filterBy" value="time" id="filterBy"> Time
-		<br/><br/>
-		<input type="radio" name="filterBy" value="cost" id="filterBy"> Cost
-		<br/><br/> -->
+			<button class="button icon icon-right ion-search margin-top-10px" ng-show="isDatabaseLoaded() && selectedItems.length <= 0" ng-click="search()">
+				Show all recipes
+			</button>
+
+			<button class="button icon icon-right ion-search margin-top-10px" ng-show="isDatabaseLoaded() && selectedItems.length > 0" ng-click="search()">
+				Find Recipes
+			</button>
+		</div>
 	</ion-content>
 </ion-view>

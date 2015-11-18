@@ -1,23 +1,77 @@
-<!--
-	This template loads for the 'tab.friend-detail' state (app.js)
-	'friend' is a $scope variable created in the FriendsCtrl controller (controllers.js)
-	The FriendsCtrl pulls data from the Friends service (service.js)
-	The Friends service returns an array of friend data
--->
+<style type="text/css">
+	.header .col {
+	    background-color:lightgrey;
+	}
+
+	.col {
+	    border: solid 1px grey;
+	    border-bottom-style: none;
+	    border-right-style: none;
+	}
+
+	.col:last-child {
+	    border-right: solid 1px grey;
+	}
+
+	.row:last-child .col {
+	    border-bottom: solid 1px grey;
+	}
+</style>
 <ion-view view-title="{{recipe.name}}">
 	<ion-content class="padding">
-		<div style="margin-left:20px;">
-			<b>Time</b>: {{recipe.time}} minutes
-			<br/><br/>
-			<b>Cost</b>: ${{recipe.cost}} per serving
-			<br/><br/>
-			<b>Ingredients</b>:
-			<br/>
-			<li ng-repeat="ingredient in ingredients">{{ingredient.quantity}} {{ingredient.units}} {{ingredient.name}}</li>
-			<br/>
-			<b>Instructions</b>:
-			<br/>
-			<li ng-repeat="instruction in instructions | orderBy: step_number">{{instruction.description}}</li>
-		</div>
+		<h2 class="title">Recipe</h2>
+		<ion-list>
+			<ion-item class="item-text-wrap">
+				{{recipe.name}}
+			</ion-item>
+		</ion-list>
+
+		<h2 class="title">Time</h2>
+		<ion-list>
+			<ion-item class="item-text-wrap">
+				<i class="icon-left ion-android-alarm-clock">
+					<span style="padding-left:10px;">
+						{{recipe.time}} minutes
+					</span>
+				</i>
+			</ion-item>
+		</ion-list>
+		
+		<h2 class="title">Cost</h2>
+		<ion-list>
+			<ion-item class="item-text-wrap">
+				<i class="icon-left ion-social-usd">
+					<span style="padding-left:10px;">
+						{{recipe.cost}} per serving
+					</span>
+				</i>
+			</ion-item>
+		</ion-list>
+
+		<h2 class="title">Ingredients</h2>
+		<ion-list>
+			<ion-item class="item-text-wrap" ng-repeat="ingredient in ingredients">
+				{{ingredient.quantity}} {{ingredient.units}} <strong>{{ingredient.name}}</strong>
+			</ion-item>
+		</ion-list>
+
+		<h2 class="title">Instructions</h2>
+		<ion-list>
+			<ion-item class="item-text-wrap" ng-repeat="instruction in instructions | orderBy: step_number">
+				<strong>{{instruction.step_number}}</strong>. {{instruction.description}}
+			</ion-item>
+		</ion-list>
+
+		<h2 class="title">Nutrition Facts</h2>
+		<div style="margin-left:10px">
+	        <div class="row header">
+	          <div class="col">Nutrient</div>
+	          <div class="col">Quantity</div>
+	        </div>
+	        <div class="row" ng-repeat="nutrient in nutrients">
+	          <div class="col">{{nutrient.name}}</div>
+	          <div class="col">{{nutrient.quantity}} <span ng-if="nutrient.units !== 'NULL'">{{nutrient.units}}</span></div>
+	        </div>
+	    </div>
 	</ion-content>
 </ion-view>
