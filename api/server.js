@@ -3,10 +3,10 @@ var express        = require("express"),
     app            = express(),
     connectionPool = mysql.createPool({
         connectionLimit : 100, //important
-        host     : 'localhost',
-        user     : 'root',
-        password : '',
-        database : 'food_diary',
+        host     : 'us-cdbr-iron-east-03.cleardb.net',
+        user     : 'b64ce794da8e13',
+        password : '7412bd36',
+        database : 'heroku_017696c102bfc24',
         debug    :  false
     });
 
@@ -31,4 +31,4 @@ app.get('/recipe_instructions',function(request,response){
 });
 
 // port number
-app.listen(5000);
+app.listen(process.env.PORT || 3000);
