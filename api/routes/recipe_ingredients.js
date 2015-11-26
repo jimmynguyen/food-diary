@@ -1,4 +1,5 @@
 var recipe_ingredients = function(request,response,connectionpool) {
+    response.setHeader("Access-Control-Allow-Origin", "*");
     connectionpool.getConnection(function(error,connection){
         if (error) {
             connection.release();
