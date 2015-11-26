@@ -125,39 +125,39 @@ angular.module('starter.controllers', ['ionic'])
 	 */
 
 	// get recipes
-	$http.get("https://sheetsu.com/apis/c6ebe75a")
+	$http.get("https://enigmatic-brook-4902.herokuapp.com/recipes")
 	.success(function(data) {
-		database.recipes = data.result;
+		database.recipes = data;
 		$scope.loadItems();
 	});
 	// get nutrients
-	$http.get("https://sheetsu.com/apis/738b25b1")
+	$http.get("https://enigmatic-brook-4902.herokuapp.com/nutrients")
 	.success(function(data) {
-		database.nutrients = data.result;
+		database.nutrients = data;
 		$scope.loadItems();
 	});
 	// get all ingredients
-	$http.get("https://sheetsu.com/apis/f8d2a320")
+	$http.get("https://enigmatic-brook-4902.herokuapp.com/ingredients")
 	.success(function(data) {
-		database.ingredients = data.result;
+		database.ingredients = data;
 		$scope.loadItems();
 	});
 	// get recipe_ingredients
-	$http.get("https://sheetsu.com/apis/d96103aa")
+	$http.get("https://enigmatic-brook-4902.herokuapp.com/recipe_ingredients")
 	.success(function(data) {
-		database.recipe_ingredients = data.result;
+		database.recipe_ingredients = data;
 		$scope.loadItems();
 	});
 	// get recipe_nutrients
-	$http.get("https://sheetsu.com/apis/51e3addb")
+	$http.get("https://enigmatic-brook-4902.herokuapp.com/recipe_nutrients")
 	.success(function(data) {
-		database.recipe_nutrients = data.result;
+		database.recipe_nutrients = data;
 		$scope.loadItems();
 	});
 	// get instructions
-	$http.get("https://sheetsu.com/apis/dc989eff")
+	$http.get("https://enigmatic-brook-4902.herokuapp.com/recipe_instructions")
 	.success(function(data) {
-		database.recipe_instructions = data.result;
+		database.recipe_instructions = data;
 		$scope.loadItems();
 	});
 })
@@ -436,39 +436,39 @@ angular.module('starter.controllers', ['ionic'])
 	}
 	$scope.loadDatabase = function () {
 		// get recipes
-		$http.get("https://sheetsu.com/apis/c6ebe75a")
+		$http.get("https://enigmatic-brook-4902.herokuapp.com/recipes")
 		.success(function(data) {
-			database.recipes = data.result;
+			database.recipes = data;
 			$scope.loadData();
 		});
 		// get nutrients
-		$http.get("https://sheetsu.com/apis/738b25b1")
+		$http.get("https://enigmatic-brook-4902.herokuapp.com/nutrients")
 		.success(function(data) {
-			database.nutrients = data.result;
+			database.nutrients = data;
 			$scope.loadData();
 		});
 		// get all ingredients
-		$http.get("https://sheetsu.com/apis/f8d2a320")
+		$http.get("https://enigmatic-brook-4902.herokuapp.com/ingredients")
 		.success(function(data) {
-			database.ingredients = data.result;
+			database.ingredients = data;
 			$scope.loadData();
 		});
 		// get recipe_ingredients
-		$http.get("https://sheetsu.com/apis/d96103aa")
+		$http.get("https://enigmatic-brook-4902.herokuapp.com/recipe_ingredients")
 		.success(function(data) {
-			database.recipe_ingredients = data.result;
+			database.recipe_ingredients = data;
 			$scope.loadData();
 		});
 		// get recipe_nutrients
-		$http.get("https://sheetsu.com/apis/51e3addb")
+		$http.get("https://enigmatic-brook-4902.herokuapp.com/recipe_nutrients")
 		.success(function(data) {
-			database.recipe_nutrients = data.result;
+			database.recipe_nutrients = data;
 			$scope.loadData();
 		});
 		// get instructions
-		$http.get("https://sheetsu.com/apis/dc989eff")
+		$http.get("https://enigmatic-brook-4902.herokuapp.com/recipe_instructions")
 		.success(function(data) {
-			database.recipe_instructions = data.result;
+			database.recipe_instructions = data;
 			$scope.loadData();
 		});
 	}
