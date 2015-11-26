@@ -1,8 +1,19 @@
 {
-    "name": "node-mysql",
-    "version": "0.0.1",
-    "dependencies": {
-        "express": "^4.10.6",
-        "mysql": "^2.5.4"
-    }
+  "name": "food_diary",
+  "version": "1.0.0",
+  "dependencies": {
+    "express": "^4.10.6",
+    "mysql": "^2.5.4"
+  },
+  "scripts": {
+    "start": "node server.js"
+  },
+  "description": "food diary application rest api",
+  "main": "server.js",
+  "devDependencies": {},
+  "author": "jimmynguyen",
+  "license": "UNLICENSED",
+  "engines": {
+    "node": "4.1.1"
+  }
 }
