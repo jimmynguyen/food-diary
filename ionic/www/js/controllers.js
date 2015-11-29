@@ -1,14 +1,118 @@
 angular.module('starter.controllers', ['ionic'])
 
-// .controller('SignInCtrl', function($scope, $state) {
-// 	$('.loader').hide();
-// 	$scope.signIn = function(user) {
-// 		console.log('Sign-In', user);
-// 		$state.go('tab.search');
-// 	};
-// })
+.controller('login_controller', function($scope, $state, $http, current_user) {
+	
+	/*
+	 * Define scope functions
+	 */
 
-.controller('SearchCtrl', function($state, $scope, $http, database, sharedProperties) {
+	$scope.login = function(user) {
+		$http.post('https://enigmatic-brook-4902.herokuapp.com/users/login', user)
+		.success(function(user) {
+			if (user.length > 0) {
+				current_user = user;
+				$scope.user.email = "";
+				$scope.user.password = "";
+				$state.go('tab.search');
+			} else  {
+				$scope.login_message = "Incorrect login credentials";
+			}
+		});
+	};
+	$scope.loginAsGuest = function() {
+		current_user = null;
+		$state.go('tab.search');
+	}
+	$scope.signup = function() {
+		$state.go('signup');
+	};
+
+	/*
+	 * Hide loader
+	 */
+
+	$('.loader').hide();
+
+	/*
+	 * Initialize variables
+	 */
+
+	$scope.user = {
+		email: "",
+		password: ""
+	};
+	$scope.login_message = null;
+})
+
+.controller('signup_controller', function($scope, $state, $http) {
+
+	/*
+     * Define js functions
+     */
+
+    function isValidEmail(email) {
+	    var re = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i;
+	    return re.test(email);
+	}
+	function isEmailAvailable(email) {
+		var isAvailable = true;
+		for (var i = 0; i < $scope.emails.length; i++) {
+			if ($scope.emails[i].email == email) {
+				isAvailable = false;
+				break;
+			}
+		}
+		return isAvailable;
+	}
+
+	/*
+	 * Define scope functions
+	 */
+
+	$scope.getEmails = function() {
+		$http.get('https://enigmatic-brook-4902.herokuapp.com/users/getEmails')
+		.success(function(data) {
+			$scope.emails = data;
+		});
+	}
+	$scope.register = function(user) {
+		if (false == isValidEmail(user.email)) {
+			$scope.register_message = "Please enter a valid email";
+		} else if (false == isEmailAvailable(user.email)) {
+			$scope.register_message = "An account with this email already exists. Please use a different email";
+		} else if (false == (user.password == user.password_confirmation)) {
+			$scope.register_message = "The passwords do not match";
+		} else {
+			$http.post('https://enigmatic-brook-4902.herokuapp.com/users/create', user)
+			.success(function(data) {
+				if (false == data.error) {
+					$state.go('login');
+				}
+			});	
+		}
+	};
+
+	/*
+	 * Show loader
+	 */
+
+	$('.loader').hide();
+
+	/*
+	 * Initialize variables
+	 */
+
+	$scope.register_message = null;
+	$scope.getEmails();
+
+	/*
+	 * Hide loader
+	 */
+
+	$('.loader').hide();
+})
+
+.controller('tab_search_controller', function($state, $scope, $http, database, sharedProperties, current_user) {
 
 	/*
 	 * Define prototype functions
@@ -103,7 +207,7 @@ angular.module('starter.controllers', ['ionic'])
 	}
 	$scope.search = function() {
 		sharedProperties.selectedItems = $scope.selectedItems;
-		$state.go('tab.list');
+		$state.go('tab.results');
 	};
 
 	/*
@@ -162,7 +266,7 @@ angular.module('starter.controllers', ['ionic'])
 	});
 })
 
-.controller('ListCtrl', function($scope, $location, $http, $timeout, $ionicFilterBar, database, sharedProperties) {
+.controller('tab_results_controller', function($scope, $location, $http, $timeout, $ionicFilterBar, database, sharedProperties, current_user) {
 
 	/*
 	 * Define js functions
@@ -183,7 +287,6 @@ angular.module('starter.controllers', ['ionic'])
 		}
 		return arr3;
 	}
-
 	function getRecipes() {
 		// separate nutrients and ingredients
 		var selectedNutrients = [];
@@ -325,7 +428,6 @@ angular.module('starter.controllers', ['ionic'])
 			});
 		}
 		$scope.recipes = recipes;
-		$('.loader').hide();
 	}
 
 	/*
@@ -376,7 +478,7 @@ angular.module('starter.controllers', ['ionic'])
 		}, 1000);
 	};
 	$scope.viewDetails = function(id) {
-		$location.path('/tab/list/'+id.toString());
+		$location.path('/tab/results/'+id.toString());
 	}
 
 	/*
@@ -392,9 +494,15 @@ angular.module('starter.controllers', ['ionic'])
 	var filterBarInstance;
 	$scope.orderBy = 'name';
 	getRecipes();
+
+	/*
+	 * Hide loader
+	 */
+
+	$('.loader').hide();
 })
 
-.controller('ItemDetailCtrl', function($scope, $stateParams, $http, database) {
+.controller('tab_details_controller', function($scope, $stateParams, $http, database, current_user) {
 
 	/*
 	 * Define js functions 
@@ -425,52 +533,6 @@ angular.module('starter.controllers', ['ionic'])
 		$scope.getIngredients($stateParams.recipe_id);
 		$scope.getInstructions($stateParams.recipe_id);
 		$scope.getNutrients($stateParams.recipe_id);
-	}
-	$scope.isDatabaseLoaded = function() {
-		return database.ingredients !== null
-			&& database.nutrients !== null
-			&& database.recipes !== null
-			&& database.recipe_ingredients !== null
-			&& database.recipe_instructions !== null
-			&& database.recipe_nutrients !== null;		
-	}
-	$scope.loadDatabase = function () {
-		// get recipes
-		$http.get("https://enigmatic-brook-4902.herokuapp.com/recipes")
-		.success(function(data) {
-			database.recipes = data;
-			$scope.loadData();
-		});
-		// get nutrients
-		$http.get("https://enigmatic-brook-4902.herokuapp.com/nutrients")
-		.success(function(data) {
-			database.nutrients = data;
-			$scope.loadData();
-		});
-		// get all ingredients
-		$http.get("https://enigmatic-brook-4902.herokuapp.com/ingredients")
-		.success(function(data) {
-			database.ingredients = data;
-			$scope.loadData();
-		});
-		// get recipe_ingredients
-		$http.get("https://enigmatic-brook-4902.herokuapp.com/recipe_ingredients")
-		.success(function(data) {
-			database.recipe_ingredients = data;
-			$scope.loadData();
-		});
-		// get recipe_nutrients
-		$http.get("https://enigmatic-brook-4902.herokuapp.com/recipe_nutrients")
-		.success(function(data) {
-			database.recipe_nutrients = data;
-			$scope.loadData();
-		});
-		// get instructions
-		$http.get("https://enigmatic-brook-4902.herokuapp.com/recipe_instructions")
-		.success(function(data) {
-			database.recipe_instructions = data;
-			$scope.loadData();
-		});
 	}
 	$scope.getIngredients = function(recipe_id) {
 		var recipe_ingredients = database.recipe_ingredients.slice();
@@ -510,11 +572,7 @@ angular.module('starter.controllers', ['ionic'])
 	 * Initialize variables
 	 */
 
-	if ($scope.isDatabaseLoaded()) {
-		$scope.loadData();
-	} else {
-		$scope.loadDatabase();
-	}
+	$scope.loadData();
 
 	/*
 	 * Hide loader

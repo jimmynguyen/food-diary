@@ -16,4 +16,9 @@ angular.module('starter.services', [])
 	var sharedProperties = {};
 
 	return sharedProperties;
+})
+.service('current_user', function () {
+	var current_user = {};
+
+	return current_user;
 });

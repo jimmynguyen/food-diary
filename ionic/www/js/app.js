@@ -37,6 +37,18 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
 	// 	controller: 'SignInCtrl'
 	// })
 
+	.state('login', {
+		url: '/login',
+		templateUrl: 'templates/login.html',
+		controller: 'login_controller'
+	})
+
+	.state('signup', {
+		url: '/signup',
+		templateUrl: 'templates/signup.html',
+		controller: 'signup_controller'
+	})
+
 	// .state('forgotpassword', {
 	// 	url: '/forgot-password',
 	// 	templateUrl: 'templates/forgot-password.html'
@@ -56,35 +68,37 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
 		views: {
 			'tab-search': {
 				templateUrl: 'templates/tab-search.html',
-				controller: 'SearchCtrl'
+				controller: 'tab_search_controller'
 			}
 		}
 	})
 
-	.state('tab.list', {
-		url: '/list',
+	.state('tab.results', {
+		url: '/results',
 		views: {
 			'tab-search': {
-				templateUrl: 'templates/tab-list.html',
-				controller: 'ListCtrl'
+				templateUrl: 'templates/tab-results.html',
+				controller: 'tab_results_controller'
 			}
 		}
 	})
 
-	.state('tab.detail', {
-		url: '/list/:recipe_id',
+	.state('tab.details', {
+		url: '/results/:recipe_id',
 		views: {
 			'tab-search': {
-				templateUrl: 'templates/tab-item_detail.html',
-				controller: 'ItemDetailCtrl'
+				templateUrl: 'templates/tab-details.html',
+				controller: 'tab_details_controller'
 			}
 		}
 	});
 
 	// if none of the above states are matched, use this as the fallback
 	// $urlRouterProvider.otherwise('/tab/dash');
-	$urlRouterProvider.otherwise('/tab/search');
+	$urlRouterProvider.otherwise('/login');
 
 	$ionicConfigProvider.tabs.position('bottom'); // other values: top
+	$ionicConfigProvider.backButton.text('Back');
+	$ionicConfigProvider.backButton.previousTitleText(false);
 
 });
