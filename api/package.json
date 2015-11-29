@@ -2,7 +2,10 @@
   "name": "food_diary",
   "version": "1.0.0",
   "dependencies": {
+    "body-parser": "^1.14.1",
+    "cors": "^2.7.1",
     "express": "^4.10.6",
+    "md5": "^2.0.0",
     "mysql": "^2.5.4"
   },
   "scripts": {

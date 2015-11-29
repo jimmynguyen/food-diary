@@ -1,4 +1,4 @@
-var nutrients = function(request,response,connectionpool) {
+module.exports.getNutrients = function(request,response,connectionpool) {
     response.setHeader("Access-Control-Allow-Origin", "*");
     connectionpool.getConnection(function(error,connection){
         if (error) {
@@ -20,5 +20,3 @@ var nutrients = function(request,response,connectionpool) {
         });
     });
 }
-
-module.exports = nutrients;

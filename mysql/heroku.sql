@@ -20,6 +20,10 @@
 --   PRIMARY KEY (`id`),
 --   UNIQUE INDEX `name_UNIQUE` (`name` ASC));
 
+-- ALTER TABLE `heroku_017696c102bfc24`.`recipes` 
+-- ADD COLUMN `created_by` INT UNSIGNED NULL AFTER `time`,
+-- ADD UNIQUE INDEX `time_UNIQUE` (`time` ASC);
+
 -- CREATE TABLE `heroku_017696c102bfc24`.`recipe_nutrients` (
 --   `id` INT NOT NULL AUTO_INCREMENT,
 --   `recipe_id` INT NOT NULL,
@@ -42,3 +46,10 @@
 --   `step_number` INT NOT NULL,
 --   `description` NVARCHAR(128) NOT NULL,
 --   PRIMARY KEY (`id`));
+
+-- CREATE TABLE `heroku_017696c102bfc24`.`users` (
+--   `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
+--   `email` VARCHAR(100) NOT NULL,
+--   `password` VARCHAR(65) NOT NULL,
+--   PRIMARY KEY (`id`),
+--   UNIQUE INDEX `email_UNIQUE` (`email` ASC));

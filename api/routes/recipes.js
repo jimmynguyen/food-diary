@@ -1,4 +1,4 @@
-var recipes = function(request,response,connectionpool) {
+module.exports.getRecipes = function(request,response,connectionpool) {
     response.setHeader("Access-Control-Allow-Origin", "*");
     connectionpool.getConnection(function(error,connection){
         if (error) {
@@ -20,5 +20,3 @@ var recipes = function(request,response,connectionpool) {
         });
     });
 }
-
-module.exports = recipes;
