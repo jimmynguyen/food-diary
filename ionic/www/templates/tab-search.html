@@ -43,8 +43,10 @@
 					<div class="item item-divider">
 						<div class="row">
 							<div class="col">
-							<a ng-click="unselectItem(item)" style="float:right;"><i style="font-size: 25px;" class="ion-trash-b" ></i></a>
-							{{item.name}}
+								<a ng-click="unselectItem(item)" style="float:right;">
+									<i style="font-size: 25px;" class="ion-trash-b" ></i>
+								</a>
+								{{item.name}}
 							</div>
 						</div>
 						<!-- item.type has 2 values: N, I -->
@@ -63,7 +65,10 @@
 							</div>
 							<div class="list">
 								<label class="item item-input">
-									<input id="{{item.id}}_quantity" type="text" style="display:inline;" ng-model="item.quantity" placeholder="Enter Value" ng-click="$(this).removeClass('placeholder')" ng-keyup="isNumber(item.id+'_quantity')">
+									<span class="input-label">
+										Quantity
+									</span>
+									<input id="{{item.id}}_quantity" type="text" style="display:inline;text-align:right;" ng-model="item.quantity" placeholder="Enter Value" ng-click="$(this).removeClass('placeholder')" ng-keyup="isNumber(item.id+'_quantity')">
 								</label>
 							</div>
 							<div class="list">
