@@ -28,6 +28,10 @@ app.get('/recipes',function(request,response){
     var recipes = require('./routes/recipes');
     recipes.getRecipes(request,response,connectionPool);
 });
+app.get('/recipes/:user_id',function(request,response){
+    var recipes = require('./routes/recipes');
+    recipes.getRecipesByUserId(request,response,connectionPool);
+});
 app.get('/ingredients',function(request,response){
     var ingredients = require('./routes/ingredients');
     ingredients.getIngredients(request,response,connectionPool);
@@ -48,7 +52,7 @@ app.get('/recipe_instructions',function(request,response){
     var recipe_instructions = require('./routes/recipe_instructions');
     recipe_instructions.getRecipeInstructions(request,response,connectionPool);
 });
-app.get('/users/getEmails',function(request,response) {
+app.get('/users/emails',function(request,response) {
     var users = require('./routes/users');
     users.getEmails(request,response,connectionPool);
 });
@@ -61,6 +65,14 @@ app.post('/users/login',function(request,response){
 app.post('/users/create',function(request,response){
     var users = require('./routes/users');
     users.create(request,response,connectionPool,md5);
+});
+app.post('/recipes/create',function(request,response) {
+    var recipes = require('./routes/recipes');
+    recipes.createRecipe(request,response,connectionPool);
+});
+app.post('/recipes/link',function(request,response) {
+    var recipes = require('./routes/recipes');
+    recipes.linkRecipeToUser(request,response,connectionPool);
 });
 
 // port number

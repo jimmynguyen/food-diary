@@ -21,6 +21,13 @@
 --   UNIQUE INDEX `name_UNIQUE` (`name` ASC));
 
 -- ALTER TABLE `heroku_017696c102bfc24`.`recipes` 
+-- DROP INDEX `name_UNIQUE` ;
+
+-- ALTER TABLE `heroku_017696c102bfc24`.`recipes` 
+-- DROP INDEX `time_UNIQUE` ;
+
+
+-- ALTER TABLE `heroku_017696c102bfc24`.`recipes` 
 -- ADD COLUMN `created_by` INT UNSIGNED NULL AFTER `time`,
 -- ADD UNIQUE INDEX `time_UNIQUE` (`time` ASC);
 
@@ -53,3 +60,15 @@
 --   `password` VARCHAR(65) NOT NULL,
 --   PRIMARY KEY (`id`),
 --   UNIQUE INDEX `email_UNIQUE` (`email` ASC));
+
+-- ALTER TABLE `heroku_017696c102bfc24`.`ingredients` 
+-- DROP INDEX `name_UNIQUE` ;
+
+-- ALTER TABLE `heroku_017696c102bfc24`.`nutrients` 
+-- DROP INDEX `name_UNIQUE` ;
+
+-- CREATE TABLE `heroku_017696c102bfc24`.`recipe_user` (
+--   `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
+--   `recipe_id` INT UNSIGNED NOT NULL,
+--   `user_id` INT UNSIGNED NOT NULL,
+--   PRIMARY KEY (`id`));
