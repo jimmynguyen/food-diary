@@ -1,0 +1,53 @@
+<ion-view view-title="My Recipes" ng-init="checkIfLoggedIn()">
+
+	<ion-nav-buttons side="secondary">
+		<button class="button button-icon icon ion-ios-search-strong" ng-click="showFilterBar()">
+		</button>
+	</ion-nav-buttons>
+
+	<ion-content direction="y" scrollbar-y="false">
+
+		<ion-refresher pulling-icon="ion-arrow-down-b" on-refresh="refreshItems()">
+		</ion-refresher>
+
+		<div class="row">
+			<div class="col text-center">
+				<input type="radio" ng-model="orderBy" value="name"/> Name
+				<input type="radio" ng-model="orderBy" value="cost" style="margin-left:25px"/> Cost
+				<input type="radio" ng-model="orderBy" value="time" style="margin-left:25px"/> Time
+			</div>
+		</div>
+
+		<ion-list>
+			<ion-item class="item-remove-animate item-icon-right" ng-repeat="item in recipes | orderBy: orderBy" type="item-text-wrap" ng-click="viewDetails(item.id)">
+				<div class="list card">
+					<div class="item item-divider">{{item.name}}</div>
+					<div class="item item-body">
+						<div>
+							<i class="icon-left ion-android-alarm-clock">
+								<span style="padding-left:10px;">
+									{{item.time_str}} minutes
+								</span>
+							</i>
+							<br />
+							<i class="icon-left ion-social-usd">
+								<span style="padding-left:10px;">
+									{{item.cost_str}} per serving
+								</span>
+							</i>
+						</div>
+						<i class="icon ion-ios-arrow-forward"></i>
+						</p>
+					</div>
+				</div>
+			</ion-item>
+			<ion-item class="item-remove-animate item-icon-right" ng-if="recipes !== undefined && !recipes.length" type="item-text-wrap">
+				<div class="list text-center">
+					<h2>No results</h2>
+				</div>
+			</ion-item>
+		</ion-list>
+
+	</ion-content>
+
+</ion-view>

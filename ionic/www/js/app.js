@@ -38,21 +38,18 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
 	// })
 
 	.state('login', {
+    	cache: false,
 		url: '/login',
 		templateUrl: 'templates/login.html',
 		controller: 'login_controller'
 	})
 
 	.state('signup', {
+    	cache: false,
 		url: '/signup',
 		templateUrl: 'templates/signup.html',
 		controller: 'signup_controller'
 	})
-
-	// .state('forgotpassword', {
-	// 	url: '/forgot-password',
-	// 	templateUrl: 'templates/forgot-password.html'
-	// })
 
 	// setup an abstract state for the tabs directive
 	.state('tab', {
@@ -64,6 +61,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
 	// Each tab has its own nav history stack:
 
 	.state('tab.search', {
+    	cache: false,
 		url: '/search',
 		views: {
 			'tab-search': {
@@ -73,7 +71,41 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
 		}
 	})
 
+	.state('tab.add_recipe', {
+    	cache: false,
+		url: '/add_recipe',
+		views: {
+			'tab-add_recipe': {
+				templateUrl: 'templates/add_recipe.html',
+				controller: 'add_recipe_controller'
+			}
+		}
+	})
+
+	.state('tab.myRecipes', {
+    	cache: false,
+		url: '/myRecipes',
+		views: {
+			'tab-myRecipes': {
+				templateUrl: 'templates/tab-myRecipes.html',
+				controller: 'tab_myRecipes_controller'
+			}
+		}
+	})
+
+	.state('tab.myRecipesDetails', {
+    	cache: false,
+		url: '/myRecipes/:recipe_id',
+		views: {
+			'tab-myRecipes': {
+				templateUrl: 'templates/tab-myRecipes-details.html',
+				controller: 'tab_details_controller'
+			}
+		}
+	})
+
 	.state('tab.results', {
+    	cache: false,
 		url: '/results',
 		views: {
 			'tab-search': {
@@ -84,6 +116,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
 	})
 
 	.state('tab.details', {
+    	cache: false,
 		url: '/results/:recipe_id',
 		views: {
 			'tab-search': {

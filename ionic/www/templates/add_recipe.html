@@ -1,0 +1,164 @@
+<style type="text/css">
+	.header .col-custom {
+	    background-color:lightgrey;
+	}
+
+	.col-custom {
+	    border: solid 1px grey;
+	    border-bottom-style: none;
+	    border-right-style: none;
+	}
+
+	.col-custom:last-child {
+	    border-right: solid 1px grey;
+	}
+
+	.row-custom:last-child .col-custom {
+	    border-bottom: solid 1px grey;
+	}
+</style>
+<ion-view view-title="Add Recipe" ng-init="checkIfLoggedIn()">
+	<ion-content>
+	  <ion-refresher
+	    pulling-text="Pull to refresh..."
+	    on-refresh="doRefresh()">
+	  </ion-refresher>
+		<ion-list>
+			<ion-item class="item-divider">
+				<strong>Recipe</strong>
+			</ion-item>
+			<ion-item class="item-input">
+				<input type="text" placeholder="Recipe name" ng-model="recipe.name">
+			</ion-item>
+		</ion-list>
+
+		<ion-list>
+			<ion-item class="item-divider">
+				<strong>Time</strong>
+			</ion-item>
+			<ion-item class="item-input">
+				<i class="ion-android-alarm-clock"></i>
+				<input type="tel" placeholder="Preparation time in minutes" ng-model="recipe.time" style="margin-left:10px;">
+			</ion-item>
+		</ion-list>
+		
+		<ion-list>
+			<ion-item class="item-divider">
+				<strong>Cost</strong>
+			</ion-item>
+			<ion-item class="item-input">
+				<i class="ion-social-usd"></i>
+				<input type="tel" placeholder="Cost per serving" ng-model="recipe.cost" style="margin-left:10px;">
+			</ion-item>
+		</ion-list>
+
+		<ion-list>
+			<ion-item class="item-divider">
+				<strong>Ingredients</strong>
+			</ion-item>
+		</ion-list>
+
+		<div class="list list-inset" ng-repeat="ingredient in ingredients">
+			<div class="item item-input">
+				<span class="input-label">Ingredient</span>
+				<input type="text" placeholder="Ingredient Name" ng-model="ingredient.name">
+				<a ng-click="removeIngredient(ingredient)" style="float:right;margin-right:10px;">
+					<i style="font-size: 25px;" class="ion-trash-b" ></i>
+				</a>
+			</div>
+			<div class="item item-input">
+				<span class="input-label">Quantity</span>
+				<input type="tel" placeholder="Quantity" ng-model="ingredient.quantity">
+			</div>
+			<div class="item item-input">
+				<span class="input-label">Units</span>
+				<input type="text" placeholder="Units" ng-model="ingredient.units">
+			</div>
+		</div>
+
+		<div class="row text-center" style="margin-top:-10px;">
+			<div class="col">
+				<button class="button button-balanced" ng-click="addIngredient()">
+					Add Ingredient
+				</button>
+			</div>
+		</div>
+
+		<ion-list>
+			<ion-item class="item-divider">
+				<strong>Instructions</strong>
+			</ion-item>
+		</ion-list>
+
+		<div class="list list-inset" ng-repeat="instruction in instructions">
+			<div class="item item-input">
+				<span class="input-label">Step Number</span>
+				<input type="text" value="{{instruction.step_number}}">
+				<a ng-click="removeInstruction(instruction)" style="float:right;margin-right:10px;">
+					<i style="font-size: 25px;" class="ion-trash-b" ></i>
+				</a>
+			</div>
+			<div class="item item-input">
+				<span class="input-label">Description</span>
+    			<input type="text" placeholder="Description" ng-model="instruction.description">
+			</div>
+		</div>
+
+		<div class="row text-center" style="margin-top:-10px;">
+			<div class="col">
+				<button class="button button-balanced" ng-click="addInstruction()">
+					Add Instruction
+				</button>
+			</div>
+		</div>
+
+		<ion-list>
+			<ion-item class="item-divider">
+				<strong>Nutrient</strong>
+			</ion-item>
+		</ion-list>
+
+		<div class="list list-inset" ng-repeat="nutrient in nutrients">
+			<div class="item item-input">
+				<span class="input-label">Nutrient</span>
+				<input type="text" placeholder="Nutrient Name" ng-model="nutrient.name">
+				<a ng-click="removeNutrient(nutrient)" style="float:right;margin-right:10px;">
+					<i style="font-size: 25px;" class="ion-trash-b" ></i>
+				</a>
+			</div>
+			<div class="item item-input">
+				<span class="input-label">Quantity</span>
+				<input type="tel" placeholder="Quantity" ng-model="nutrient.quantity">
+			</div>
+			<div class="item item-input">
+				<span class="input-label">Units</span>
+				<input type="text" placeholder="Units" ng-model="nutrient.units">
+			</div>
+		</div>
+
+		<div class="row text-center" style="margin-top:-10px;">
+			<div class="col">
+				<button class="button button-balanced" ng-click="addNutrient()">
+					Add Nutrient
+				</button>
+			</div>
+		</div>
+
+		<ion-list>
+			<ion-item class="item-divider">
+			</ion-item>
+		</ion-list>
+
+		<div class="row text-center">
+			<div class="col">
+				<button class="button button-positive" ng-click="submitRecipe()">
+					Submit Recipe
+				</button>
+				<button class="button button-positive" ng-click="initializeFields()">
+					Initialize Fields
+				</button>
+			</div>
+		</div>
+
+	</ion-content>
+</ion-view>

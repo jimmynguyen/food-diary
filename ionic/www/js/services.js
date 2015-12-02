@@ -18,7 +18,9 @@ angular.module('starter.services', [])
 	return sharedProperties;
 })
 .service('current_user', function () {
-	var current_user = {};
+	var current_user = {
+		id: null
+	};
 
 	return current_user;
 });
