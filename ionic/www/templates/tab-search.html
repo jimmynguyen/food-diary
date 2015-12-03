@@ -20,24 +20,6 @@
 			</ion-item>
 		</ion-list>
 		<div ng-hide="searchString.length > 0">
-			<!-- <ion-item class="item-remove-animate text-left" type="item-text-wrap">
-				<div class="item item-divider">
-					<i class="ion-social-usd" ></i>
-					Cost
-					<br />
-					<p>Min: <input type="number" style="display:inline-block;padding-left:5px;" placeholder="Min Value" id="minCost"/></p>
-					<p>Max: <input type="number" style="display:inline-block;padding-left:5px;" placeholder="Max Value" id="maxCost"/></p>
-				</div>
-			</ion-item>
-			<ion-item class="item-remove-animate text-left" type="item-text-wrap">
-				<div class="item item-divider">
-					<i class="ion-android-alarm-clock" ></i>
-					Time
-					<br />
-					<p>Min: <input type="number" style="display:inline-block;padding-left:5px;" placeholder="Enter value" id="minTime"/></p>
-					<p>Max: <input type="number" style="display:inline-block;padding-left:5px;" placeholder="Enter value" id="maxTime"/></p>
-				</div>
-			</ion-item> -->
 			<ion-list ng-show="selectedItems.length > 0" class="text-left">
 				<ion-item class="item-remove-animate" ng-repeat="item in selectedItems | orderBy: item.name" type="item-text-wrap">
 					<div class="item item-divider">

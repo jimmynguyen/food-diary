@@ -59,12 +59,15 @@
 		</ion-list>
 
 		<div class="list list-inset" ng-repeat="ingredient in ingredients">
+
 			<div class="item item-input">
-				<span class="input-label">Ingredient</span>
+				<span class="input-label">
+					Ingredient
+					<a ng-click="removeIngredient(ingredient)" style="margin-left:5px;">
+						<i style="font-size: 25px;" class="ion-trash-b" ></i>
+					</a>
+				</span>
 				<input type="text" placeholder="Ingredient Name" ng-model="ingredient.name">
-				<a ng-click="removeIngredient(ingredient)" style="float:right;margin-right:10px;">
-					<i style="font-size: 25px;" class="ion-trash-b" ></i>
-				</a>
 			</div>
 			<div class="item item-input">
 				<span class="input-label">Quantity</span>
@@ -92,11 +95,13 @@
 
 		<div class="list list-inset" ng-repeat="instruction in instructions">
 			<div class="item item-input">
-				<span class="input-label">Step Number</span>
+				<span class="input-label">
+					Step Number
+					<a ng-click="removeInstruction(instruction)" style="margin-left:5px;">
+						<i style="font-size: 25px;" class="ion-trash-b" ></i>
+					</a>
+				</span>
 				<input type="text" value="{{instruction.step_number}}">
-				<a ng-click="removeInstruction(instruction)" style="float:right;margin-right:10px;">
-					<i style="font-size: 25px;" class="ion-trash-b" ></i>
-				</a>
 			</div>
 			<div class="item item-input">
 				<span class="input-label">Description</span>
@@ -120,11 +125,13 @@
 
 		<div class="list list-inset" ng-repeat="nutrient in nutrients">
 			<div class="item item-input">
-				<span class="input-label">Nutrient</span>
+				<span class="input-label">
+					Nutrient
+					<a ng-click="removeNutrient(nutrient)" style="margin-left:5px;">
+						<i style="font-size: 25px;" class="ion-trash-b" ></i>
+					</a>
+				</span>
 				<input type="text" placeholder="Nutrient Name" ng-model="nutrient.name">
-				<a ng-click="removeNutrient(nutrient)" style="float:right;margin-right:10px;">
-					<i style="font-size: 25px;" class="ion-trash-b" ></i>
-				</a>
 			</div>
 			<div class="item item-input">
 				<span class="input-label">Quantity</span>

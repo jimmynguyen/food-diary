@@ -76,7 +76,7 @@ angular.module('starter.controllers', ['ionic'])
 	 */
 
 	$scope.getEmails = function() {
-		$http.get('https://enigmatic-brook-4902.herokuapp.com/users/getEmails')
+		$http.get('https://enigmatic-brook-4902.herokuapp.com/users/emails')
 		.success(function(data) {
 			$scope.emails = data;
 		});
