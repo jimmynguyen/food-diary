@@ -1,37 +1,72 @@
-<div ng-controller="ResultsController">
+<div ng-controller="results_controller">
 	<div class="navbar navbar-inverse navbar-fixed-top">
-	  <div class="container">
-	    <!-- <div class="navbar-header text-center"> -->
-	      <!-- <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-	        <span class="icon-bar"></span>
-	        <span class="icon-bar"></span>
-	        <span class="icon-bar"></span>
-	      </button> -->
-	      <!-- <a class="navbar-brand">Results</a>
-	    </div> -->
-
-	    <div class="row">
-	    	<div class="column col-md-12 text-center">
-	    		<a style="float:left;height: 50px;padding: 15px 0px;font-size: 18px;line-height: 20px;display: inline-block;text-decoration:none;color:white;" href="#/"><span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span></a>
-	      		<span style="height: 50px;padding: 15px 0px;font-size: 18px;line-height: 20px;display: inline-block;text-decoration:none;color:white;">Results</span>
-	    	</div>
-		</div>
-	    <!-- <div class="collapse navbar-collapse"> -->
-	      <!-- <ul class="nav navbar-nav"> -->
-	        <!-- <li class="active"><a href="#">Search</a></li>
-	        <li><a href="#">Results</a></li>
-	        <li><a href="#">Details</a></li> -->
-	      <!-- </ul> -->
-	    <!-- </div>/.nav-collapse  -->
-	  </div>
-	</div>
-	<div class="container">
-		<div class="row">
-			<div class="column col-md-12 text-center">
-				<h4 ng-repeat="recipe in recipes | orderBy: 'name'"><a style="cursor:pointer;" href="#/details/{{recipe.id}}">{{recipe.name}}</a></h4>
-				<div ng-show="recipes.length == 0">No results</div>
+		<div class="container">
+			<div class="row">
+				<div class="column col-md-12 text-center">
+					<a style="float:left;height: 50px;padding: 15px 0px;font-size: 18px;line-height: 20px;display: inline-block;text-decoration:none;color:white;" href="#/search"><span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span></a>
+			  		<span style="height: 50px;padding: 15px 0px;font-size: 18px;line-height: 20px;display: inline-block;text-decoration:none;color:white;">Results</span>
+				</div>
 			</div>
 		</div>
+	</div>
+	<div class="container">
+		<div class="row" style="margin-top:20px;">
+			<div class="col text-center">
+				<input type="radio" ng-model="orderBy" value="name"/> Name
+				<input type="radio" ng-model="orderBy" value="cost" style="margin-left:25px"/> Cost
+				<input type="radio" ng-model="orderBy" value="time" style="margin-left:25px"/> Time
+			</div>
+		</div>
+
+		<ul class="list-group" style="margin-top:20px;">
+			<li class="list-group-item" ng-repeat="item in recipes | orderBy: orderBy">
+				<div ng-click="viewDetails(item.id)">
+					<div>
+						<label>{{item.name}}</label>
+						<div>
+							<div>
+								<span class="glyphicon glyphicon-time"></span>
+								<span style="padding-left:10px;">
+									{{item.time_str}} minutes
+								</span>
+								<span class="glyphicon glyphicon-menu-right" style="float:right;"></span>
+								<br />
+								<span class="glyphicon glyphicon-usd">
+								</span>
+								<span style="padding-left:10px;">
+									{{item.cost_str}} per serving
+								</span>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div ng-if="recipes !== undefined && !recipes.length" type="item-text-wrap">
+					<div class="text-center">
+						<h2>No results</h2>
+					</div>
+				</div>
+			</li>
+		</ul>
 		<div class="loader"></div>
+	</div>
+	<div class="navbar navbar-inverse navbar-fixed-bottom">
+		<div class="container">
+			<div class="row">
+				<div class="column col-sm-12 text-center">
+					<a style="float:left;height: 50px;padding: 15px 0px;font-size: 18px;line-height: 20px;display: inline-block;text-decoration:none;color:white;margin-left:70px;" ng-click="go_to('/search')">
+						<span class="glyphicon glyphicon-home" aria-hidden="true"></span>
+					</a>
+					<a style="float:left;height: 50px;padding: 15px 0px;font-size: 18px;line-height: 20px;display: inline-block;text-decoration:none;color:white;margin-left:35px;" ng-click="go_to('/my_recipes')">
+		  				<span class="glyphicon glyphicon-list"></span>
+					</a>
+					<a style="float:left;height: 50px;padding: 15px 0px;font-size: 18px;line-height: 20px;display: inline-block;text-decoration:none;color:white;margin-left:35px;" ng-click="go_to('/add_recipes')">
+		      			<span class="glyphicon glyphicon-pencil"></span>
+		    		</a>
+		    		<a style="float:left;height: 50px;padding: 15px 0px;font-size: 18px;line-height: 20px;display: inline-block;text-decoration:none;color:white;margin-left:35px;" ng-click="go_to('/')">
+			      			<span class="glyphicon glyphicon-log-out"></span>
+			    		</a>
+				</div>
+			</div>
+		</div>
 	</div>
 </div>

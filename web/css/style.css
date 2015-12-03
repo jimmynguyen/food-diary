@@ -11,3 +11,15 @@ body {
 	z-index: 9999;
 	background: url('../img/ajax-loader.gif') 50% 50% no-repeat rgb(249,249,249);
 }
+
+.centerPseudo {
+    display: inline-block;
+    text-align: center;
+}
+.centerPseudo::before {
+    content: '';
+    display: inline-block;
+    height: 100%;
+    vertical-align: middle;
+    width: 0px;
+}

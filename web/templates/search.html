@@ -1,33 +1,116 @@
-<div ng-controller="SearchController">
+<div ng-controller="search_controller">
 	<div class="navbar navbar-inverse navbar-fixed-top">
 	  <div class="container">
-	    <!-- <div class="navbar-header text-center"> -->
-	      <!-- <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-	        <span class="icon-bar"></span>
-	        <span class="icon-bar"></span>
-	        <span class="icon-bar"></span>
-	      </button> -->
-	      <!-- <a class="navbar-brand">Food Diary</a>
-	    </div> -->
 	    <div class="row">
 	    	<div class="column col-md-12 text-center">
-	      		<span style="height: 50px;padding: 15px 15px;font-size: 18px;line-height: 20px;display: inline-block;text-decoration:none;color:white;">Food Diary</span>
+	      		<span style="height: 50px;padding: 15px 15px;font-size: 18px;line-height: 20px;display: inline-block;text-decoration:none;color:white;">Home</span>
 	    	</div>
 		</div>
-	    <!-- <div class="collapse navbar-collapse"> -->
-	      <!-- <ul class="nav navbar-nav"> -->
-	        <!-- <li class="active"><a href="#">Search</a></li>
-	        <li><a href="#">Results</a></li>
-	        <li><a href="#">Details</a></li> -->
-	      <!-- </ul> -->
-	    <!-- </div>/.nav-collapse  -->
 	  </div>
 	</div>	
 	<div class="container">
-		<div class="row">
-			<div class="column col-md-12 text-center">
-				<h1>Search<h1>
-				<button type="button" ng-click="search()" class="btn btn-primary">Search <span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
+		<div class="row" style="margin-top:20px;">
+			<div class="column col-md-12">
+				<div class="input-group">
+					<span class="input-group-addon" id="basic-addon-search">
+						<span class="glyphicon glyphicon-search"></span>
+					</span>
+					<input type="text" class="form-control" placeholder="Search"ng-keyup="searchList($event)" id="search" ngBlur="clearSearch()" aria-describedby="basic-addon-search">
+				</div>
+			</div>
+		</div>
+		<div class="row" style="margin-top:20px;" ng-show="searchString.length > 0">
+			<div class="column col-md-12">
+				<ul class="list-group">
+					<li class="list-group-item" ng-repeat="item in items | orderBy: 'name' | filter: searchString:strict">
+						<div ng-click="selectItem(item)">
+							{{item.name}}
+						</div>
+					</li>
+					<li class="list-group-item" ng-show="(items | orderBy: 'name' | filter: searchString:strict).length == 0">
+						<div>
+							No results
+						</div>
+					</li>
+				</ul>
+			</div>
+		</div>
+		<div style="margin-top:20px;" ng-hide="searchString.length > 0">
+			<div ng-show="selectedItems.length > 0" class="text-left">
+				<ul class="list-group">
+					<li class="list-group-item" ng-repeat="item in selectedItems | orderBy: item.name">
+						<div>
+							<a ng-click="unselectItem(item)" style="float:right;">
+								<span class="glyphicon glyphicon-trash" ></span>
+							</a>
+							<label>{{item.name}}</label>
+						</div>
+						<!-- item.type has 2 values: N, I -->
+						<div ng-if="item.type == 'N'">
+							<div class="form-group">
+								<label>Operator</label>
+								<select class="form-control" ng-model="item.operator">
+									<option value="L">&lt;</option>
+									<option value="E" selected>&asymp;</option>
+									<option value="G">&gt;</option>
+								</select>
+							</div>
+							<div class="form-group">
+								<label>Quantity</label>
+								<input class="form-control" id="{{item.id}}_quantity" type="text" style="display:inline;" ng-model="item.quantity" placeholder="Enter Value" ng-click="$(this).removeClass('placeholder')" ng-keyup="isNumber(item.id+'_quantity')">
+							</div>
+							<div class="form-group">
+								<label>Units</label>
+								<select class="form-control">
+									<option value="item.units" selected>
+										{{item.units}}
+									</option>
+								</select>
+							</div>
+						</div>
+					</li>
+				</ul>
+			</div>
+			
+			<div style="margin-top:20px;" ng-show="selectedItems.length <= 0 && searchString.length <= 0">
+				<ul class="list-group">
+					<li class="list-group-item">
+						Please select an ingredient or nutrient in the search bar above
+					</li>
+				</ul>
+			</div>
+
+			<div class="column col-sm-12 text-center">
+				<button class="btn btn-success" ng-show="isDatabaseLoaded() && selectedItems.length <= 0 && searchString.length <= 0" ng-click="search()">
+					Show all recipes
+				</button>
+			</div>
+
+			<div class="column col-sm-12 text-center">
+				<button class="btn btn-success" ng-show="isDatabaseLoaded() && selectedItems.length > 0" ng-click="search()">
+					Find Recipes
+				</button>
+			</div>
+		</div>
+		<div class="loader"></div>
+	</div>
+	<div class="navbar navbar-inverse navbar-fixed-bottom">
+		<div class="container">
+			<div class="row">
+				<div class="column col-sm-12 text-center">
+					<a style="float:left;height: 50px;padding: 15px 0px;font-size: 18px;line-height: 20px;display: inline-block;text-decoration:none;color:white;margin-left:70px;" ng-click="go_to('/search')">
+						<span class="glyphicon glyphicon-home" aria-hidden="true"></span>
+					</a>
+					<a style="float:left;height: 50px;padding: 15px 0px;font-size: 18px;line-height: 20px;display: inline-block;text-decoration:none;color:white;margin-left:35px;" ng-click="go_to('/my_recipes')">
+		  				<span class="glyphicon glyphicon-list"></span>
+					</a>
+					<a style="float:left;height: 50px;padding: 15px 0px;font-size: 18px;line-height: 20px;display: inline-block;text-decoration:none;color:white;margin-left:35px;" ng-click="go_to('/add_recipes')">
+		      			<span class="glyphicon glyphicon-pencil"></span>
+		    		</a>
+		    		<a style="float:left;height: 50px;padding: 15px 0px;font-size: 18px;line-height: 20px;display: inline-block;text-decoration:none;color:white;margin-left:35px;" ng-click="go_to('/')">
+			      			<span class="glyphicon glyphicon-log-out"></span>
+			    		</a>
+				</div>
 			</div>
 		</div>
 	</div>

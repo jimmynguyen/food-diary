@@ -1,50 +1,121 @@
-<div ng-controller="DetailsController">
+<div ng-controller="details_controller">
 	<div class="navbar navbar-inverse navbar-fixed-top">
 	  <div class="container">
-	    <!-- <div class="navbar-header"> -->
-	      <!-- <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-	        <span class="icon-bar"></span>
-	        <span class="icon-bar"></span>
-	        <span class="icon-bar"></span>
-	      </button> -->
 	    <div class="row">
 	    	<div class="column col-md-12 text-center">
-	    		<a style="float:left;height: 50px;padding: 15px 0px;font-size: 18px;line-height: 20px;display: inline-block;text-decoration:none;color:white;" href="#/results"><span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span></a>
+	    		<a style="float:left;height: 50px;padding: 15px 0px;font-size: 18px;line-height: 20px;display: inline-block;text-decoration:none;color:white;" ng-click="goToResults()"><span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span></a>
 	      		<span style="height: 50px;padding: 15px 15px;font-size: 18px;line-height: 20px;display: inline-block;text-decoration:none;color:white;">{{recipe.name}}</span>
+	    		<a style="float:right;height: 50px;padding: 15px 0px;font-size: 18px;line-height: 20px;display: inline-block;text-decoration:none;color:white;" ng-click="addToMyRecipes()" ng-if="isFromResults && (false == isInMyRecipes) && isLoggedIn">
+	      			<span class="glyphicon glyphicon-plus-sign"></span>
+	    		</a>
 	    	</div>
+	    	<div class="column col-md-12 text-center alert alert-{{add_recipe_class}}" role="alert" ng-if="add_recipe_message != null">{{add_recipe_message}}</div>
 		</div>
-	    <!-- </div> -->
-	    <!-- <div class="collapse navbar-collapse"> -->
-	      <!-- <ul class="nav navbar-nav"> -->
-	        <!-- <li class="active"><a href="#">Search</a></li>
-	        <li><a href="#">Results</a></li>
-	        <li><a href="#">Details</a></li> -->
-	      <!-- </ul> -->
-	    <!-- </div>/.nav-collapse  -->
 	  </div>
 	</div>
 
 	<div class="container">
-		<div class="row">
-			<div class="column col-md-12 text-left">
-				<br/>
-				<b>Time</b>: {{recipe.time}} minutes
-				<br/><br/>
-				<b>Cost</b>: ${{recipe.cost}} per serving
-				<br/><br/>
-				<b>Ingredients</b>:
-				<br/>
-				<ul>
-					<li class="text-left" ng-repeat="ingredient in ingredients">{{ingredient.quantity}} {{ingredient.units}} {{ingredient.name}}</li>
+		<div class="row" style="margin-top:20px;">
+			<div class="column col-md-12">
+				<ul class="list-group">
+					<li class="list-group-item">
+						<label>Recipe</label>
+						<p>
+							{{recipe.name}}
+						</p>
+					</li>
 				</ul>
-				<br/>
-				<b>Instructions</b>:
-				<br/>
-				<ol>
-		      		<li class="text-left" ng-repeat="instruction in instructions | orderBy: step_number">{{instruction.description}}</li>
-		  		</ol>
+
+				<ul class="list-group">
+					<li class="list-group-item">
+						<label>Time</label>
+						<p>
+							<span class="glyphicon glyphicon-time"></span>
+							<span style="padding-left:10px;">
+								{{recipe.time}} minutes
+							</span>
+						</p>
+					</li>
+				</ul>
+
+				<ul class="list-group">
+					<li class="list-group-item">
+						<label>Cost</label>
+						<p>
+							<span class="glyphicon glyphicon-usd"></span>
+							<span style="padding-left:10px;">
+								{{recipe.cost}} per serving
+							</span>
+						</p>
+					</li>
+				</ul>
+
+				<ul class="list-group">
+					<li class="list-group-item">
+						<label>Ingredients</label>
+						<p ng-repeat="ingredient in ingredients">
+							{{ingredient.quantity}} {{ingredient.units}} <strong>{{ingredient.name}}</strong>
+						</p>
+					</li>
+				</ul>
+
+				<ul class="list-group">
+					<li class="list-group-item">
+						<label>Instructions</label>
+						<p ng-repeat="instruction in instructions | orderBy: step_number">
+							<strong>{{instruction.step_number}}</strong>. {{instruction.description}}
+						</p>
+					</li>
+				</ul>
+
+				<ul class="list-group">
+					<li class="list-group-item">
+						<label>Nutrition Facts</label>
+						<div class="panel panel-default">
+							<!-- Table -->
+							<table class="table">
+								<tr style="background:#f5f5f5;">
+									<th>
+										Nutrients
+									</th>
+									<th>
+										Quantity
+									</th>
+								</tr>
+								<tr ng-repeat="nutrient in nutrients">
+									<td>
+										{{nutrient.name}}
+									</td>
+									<td>
+										{{nutrient.quantity}} <span ng-if="nutrient.units !== 'NULL'">{{nutrient.units}}</span>
+									</td>
+								</tr>
+							</table>
+						</div>
+					</li>
+				</ul>
 			</div>
 		</div>
 		<div class="loader"></div>
+	</div>
+	<div class="navbar navbar-inverse navbar-fixed-bottom">
+		<div class="container">
+			<div class="row">
+				<div class="column col-sm-12 text-center">
+					<a style="float:left;height: 50px;padding: 15px 0px;font-size: 18px;line-height: 20px;display: inline-block;text-decoration:none;color:white;margin-left:70px;" ng-click="go_to('/search')">
+						<span class="glyphicon glyphicon-home" aria-hidden="true"></span>
+					</a>
+					<a style="float:left;height: 50px;padding: 15px 0px;font-size: 18px;line-height: 20px;display: inline-block;text-decoration:none;color:white;margin-left:35px;" ng-click="go_to('/my_recipes')">
+		  				<span class="glyphicon glyphicon-list"></span>
+					</a>
+					<a style="float:left;height: 50px;padding: 15px 0px;font-size: 18px;line-height: 20px;display: inline-block;text-decoration:none;color:white;margin-left:35px;" ng-click="go_to('/add_recipes')">
+		      			<span class="glyphicon glyphicon-pencil"></span>
+		    		</a>
+		    		<a style="float:left;height: 50px;padding: 15px 0px;font-size: 18px;line-height: 20px;display: inline-block;text-decoration:none;color:white;margin-left:35px;" ng-click="go_to('/')">
+			      			<span class="glyphicon glyphicon-log-out"></span>
+			    		</a>
+				</div>
+			</div>
+		</div>
 	</div>
 </div>

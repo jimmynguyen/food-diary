@@ -1,0 +1,57 @@
+<div ng-controller="login_controller">
+	<div class="navbar navbar-inverse navbar-fixed-top">
+	  <div class="container">
+	    <div class="row">
+	    	<div class="column col-md-12 text-center">
+	      		<span style="height: 50px;padding: 15px 15px;font-size: 18px;line-height: 20px;display: inline-block;text-decoration:none;color:white;">Food Diary</span>
+	    	</div>
+		</div>
+	  </div>
+	</div>	
+	<div class="container">
+		<div class="row">
+			<div class="column col-md-12" style="margin-top:50px;">
+				<input type="email" class="form-control" placeholder="Email" ng-model="user.email">
+				<br/><br/>
+				<input type="password" class="form-control" placeholder="Password" ng-model="user.password">
+				<br/><br/>
+				<div ng-if="login_message !== null" class="alert alert-danger" role="alert">
+					<span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+					<span class="sr-only">Error:</span>
+					{{login_message}}
+				</div>
+
+				<div class="column col-md-12 text-center">
+					<button type="button" ng-click="login(user)" class="btn btn-primary"  style="margin-top:20px;width:200px;">
+						Log in
+					</button>
+				</div>
+
+				<div class="column col-md-12 text-center">
+					<button type="button" ng-click="initializeFields()" class="btn btn-danger"  style="margin-top:20px;width:200px;">
+						Initialize fields
+					</button>
+				</div>
+
+				<div class="column col-md-12 text-center" style="margin-top:20px;">
+					or
+				</div>
+
+				<div class="column col-md-12 text-center">
+					<button type="button" ng-click="loginAsGuest()" class="btn btn-info"  style="margin-top:20px;width:200px;">
+						Continue as Guest
+					</button>
+				</div>
+
+				<div class="column col-md-12 text-center" style="margin-top:20px;">
+					<p class="text-center">
+						Don't have an account?
+					</p>
+					<button class="btn btn-success" ng-click="signup()" style="width:200px;">
+						Sign up
+					</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
