@@ -1,4 +1,4 @@
-# foodDiary
+# food-diary
 
 Georgia Institute of Technology  
 CS 4261: Mobile Applications and Services  
